@@ -10,7 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Roboto+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
+<body class="events-page">
+    <canvas id="events-background"></canvas>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
@@ -97,110 +98,51 @@
             </div>
         </section>
 
-        <!-- Other Events Section -->
-     <!---   <section class="events-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Other Upcoming Events</h2>
-                    <p>Join us for more exciting tech events and workshops</p>
-                </div>
-                <div class="events-grid">
-                    <div class="event-card card">
-                        <div class="event-image">
-                             <img src="https://picsum.photos/seed/gemini/600/400" alt="Gemini API Workshop">
-                            <div class="event-overlay">
-                                <span class="event-category">Workshop</span>
-                            </div>
-                        </div>
-                        <div class="event-details">
-                            <h3>Intro to Gemini API</h3>
-                            <p class="event-date">November 15, 2024</p>
-                            <p class="event-description">Learn to build AI-powered applications using Google's Gemini API.</p>
-                            <button class="btn btn-primary">Learn More</button>
-                        </div>
-                    </div>
-                    <div class="event-card card">
-                        <div class="event-image">
-                            <img src="https://picsum.photos/seed/techtalk/600/400" alt="Tech Talk">
-                            <div class="event-overlay">
-                                <span class="event-category">Meetup</span>
-                            </div>
-                        </div>
-                        <div class="event-details">
-                            <h3>Tech Talk Series</h3>
-                            <p class="event-date">December 5, 2024</p>
-                            <p class="event-description">Monthly tech talks featuring industry experts and alumni.</p>
-                            <button class="btn btn-primary">Learn More</button>
-                        </div>
-                    </div>
-                    <div class="event-card card">
-                        <div class="event-image">
-                            <img src="https://picsum.photos/seed/webdev/600/400" alt="Web Development Bootcamp">
-                            <div class="event-overlay">
-                                <span class="event-category">Workshop</span>
-                            </div>
-                        </div>
-                        <div class="event-details">
-                            <h3>Web Development Bootcamp</h3>
-                            <p class="event-date">December 20, 2024</p>
-                            <p class="event-description">Intensive workshop on modern web development technologies.</p>
-                            <button class="btn btn-primary">Learn More</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    -->
-
-        <!-- Past Events Timeline -->
-     <!--   <section class="timeline-section">
+        <!-- 
+        ============================================================
+        PAST EVENTS SECTION - To be enabled in a future update
+        ============================================================
+        
+        <section class="past-events-section">
             <div class="container">
                 <div class="section-header">
                     <h2>Past Events</h2>
-                    <p>A look back at the milestones and events that have shaped FACE into the thriving community it is today.</p>
+                    <p>A look back at our journey of learning and innovation.</p>
                 </div>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-content">
-                            <div class="timeline-date">December 2024</div>
-                            <h3>SLAC 2024 - Winter Edition</h3>
-                            <p>Our biggest hackathon yet with 400+ participants from across India. 24 hours of intense coding, innovation, and collaboration.</p>
-                            <div class="timeline-highlights">
-                                <span class="highlight-tag">₹75,000+ Prizes</span>
-                                <span class="highlight-tag">400+ Participants</span>
-                                <span class="highlight-tag">50+ Projects</span>
-                            </div>
+                <div class="past-events-grid">
+                    
+                    <div class="past-event-card card">
+                        <img src="https://picsum.photos/seed/pastevent1/600/400" alt="Past Event 1" class="past-event-image">
+                        <div class="past-event-info">
+                            <h3 class="past-event-title">Intro to Competitive Programming</h3>
+                            <p class="past-event-date"><i class="fas fa-calendar-check"></i> April 15, 2024</p>
+                            <p class="past-event-desc">An immersive workshop on the fundamentals of competitive programming and problem-solving strategies.</p>
                         </div>
                     </div>
 
-                    <div class="timeline-item">
-                        <div class="timeline-content">
-                            <div class="timeline-date">October 2024</div>
-                            <h3>Web Development Bootcamp</h3>
-                            <p>Intensive 6-week bootcamp covering HTML, CSS, JavaScript, React, and Node.js. 150+ students completed the program.</p>
-                            <div class="timeline-highlights">
-                                <span class="highlight-tag">6 Weeks</span>
-                                <span class="highlight-tag">150+ Students</span>
-                                <span class="highlight-tag">Full Stack</span>
-                            </div>
+                    <div class="past-event-card card">
+                        <img src="https://picsum.photos/seed/pastevent2/600/400" alt="Past Event 2" class="past-event-image">
+                        <div class="past-event-info">
+                            <h3 class="past-event-title">UI/UX Design Principles</h3>
+                            <p class="past-event-date"><i class="fas fa-calendar-check"></i> February 22, 2024</p>
+                            <p class="past-event-desc">A deep dive into creating intuitive and beautiful user interfaces with industry experts.</p>
                         </div>
                     </div>
 
-                    <div class="timeline-item">
-                        <div class="timeline-content">
-                            <div class="timeline-date">August 2024</div>
-                            <h3>Code Sprint 2024</h3>
-                            <p>Weekend coding challenge focused on problem-solving and algorithmic thinking. 200+ participants competed.</p>
-                            <div class="timeline-highlights">
-                                <span class="highlight-tag">48 Hours</span>
-                                <span class="highlight-tag">200+ Coders</span>
-                                <span class="highlight-tag">Algorithms</span>
-                            </div>
+                    <div class="past-event-card card">
+                        <img src="https://picsum.photos/seed/pastevent3/600/400" alt="Past Event 3" class="past-event-image">
+                        <div class="past-event-info">
+                            <h3 class="past-event-title">Capture The Flag (CTF) Challenge</h3>
+                            <p class="past-event-date"><i class="fas fa-calendar-check"></i> December 5, 2023</p>
+                            <p class="past-event-desc">Our annual cybersecurity event, challenging students with real-world hacking scenarios.</p>
                         </div>
                     </div>
+
                 </div>
             </div>
-        </section>
+        </section> 
+        -->
+
     </main>
 
 
