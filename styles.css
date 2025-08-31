@@ -309,6 +309,8 @@ body {
     background: transparent;
     text-decoration: none;
     cursor: pointer;
+    /* Buttons should use Neue Machina by default */
+    font-family: 'Neue Machina', var(--font-sans);
 }
 
 .btn:hover {
@@ -345,6 +347,9 @@ body {
 .btn-secondary, .btn-outline {
     border-color: var(--brand-secondary);
     color: var(--brand-secondary);
+    /* Outline/secondary buttons use the regular weight for a lighter look */
+    font-family: 'Neue Machina', var(--font-sans);
+    font-weight: 400;
 }
 
 .btn-secondary:hover, .btn-outline:hover {
