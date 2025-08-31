@@ -63,7 +63,7 @@ body {
 .navbar.scrolled {
     background-color: rgba(26, 26, 46, 0.5);
     backdrop-filter: blur(18px);
-    webkit-backdrop-filter: blur(18px);   
+    -webkit-backdrop-filter: blur(18px);   
     box-shadow: 0 2px 20px rgba(0,0,0,0.4);
 }
 
@@ -429,6 +429,17 @@ section {
 .team-social a:hover {
     color: var(--brand-secondary);
     transform: translateY(-2px);
+}
+
+.president-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.president-card {
+    max-width: 320px;
+    width: 100%;
 }
 
 /* Timeline Section */
