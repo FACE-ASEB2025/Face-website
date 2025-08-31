@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events - FACE Amrita Bengaluru</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Roboto+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="index.html">
+                    <img src="FaceLogo.png" alt="FACE Logo" class="logo">
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="events.html" class="nav-link active">Events</a></li>
+                <li><a href="team.html" class="nav-link">Team</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+                <li><a href="credits.html" class="nav-link">Credits</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+    
+    <main>
+        <!-- Upcoming Events Title Section -->
+        <section class="events-title-section">
+            <div class="container section-header">
+                <h2>Upcoming Events</h2>
+                <h3 class="hero-title"></h3>
+            </div>
+        </section>
+
+        <!-- Featured Event Section -->
+        <section class="featured-event-section" style="padding-top: 0;">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Featured Event</h2>
+                    <p>Don't miss our next big workshop!</p>
+                </div>
+                <div class="featured-event-card">
+                    <div class="event-content">
+                        <div class="event-header">
+                            <h2>Basics → IOT Integration Python workshop</h2>
+                            <h3>Start your coding journey with python fundamentals and iot applications.</h3>
+                            <div class="event-meta">
+                                <span class="event-date">
+                                    <i class="fas fa-calendar"></i>
+                                    September 3, 2025
+                                </span>
+                                <span class="event-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Amrita Vishwa Vidyapeetham, Bengaluru
+                                </span>
+                            </div>
+                        </div>
+                        <div class="event-description">
+                            <p>Join us for a hands-on workshop covering the essential basics of Python programming and its integration with IoT technology to build a radar project.</p>
+                            <div class="event-highlights">
+                                <div class="highlight">
+                                    <i class="fab fa-python"></i>
+                                    <span>Learn Python</span>
+                                </div>
+                                <div class="highlight">
+                                    <i class="fas fa-wifi"></i>
+                                    <span>IOT Radar Project</span>
+                                </div>
+                                 <div class="highlight">
+                                    <i class="fas fa-tools"></i>
+                                    <span>Hands-on Experience</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="event-actions">
+                            <a href="https://forms.gle/PjAMon4hLb2N3Sur7" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Register Now</a>
+                            <button class="btn btn-secondary">Download Brochure</button>
+                        </div>
+                    </div>
+                    <div class="event-visual">
+                         <img src="pythonPoster.jpeg" alt="Python Workshop Poster" class="event-poster-image">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Other Events Section -->
+        <section class="events-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Other Upcoming Events</h2>
+                    <p>Join us for more exciting tech events and workshops</p>
+                </div>
+                <div class="events-grid">
+                    <div class="event-card card">
+                        <div class="event-image">
+                             <img src="https://picsum.photos/seed/gemini/600/400" alt="Gemini API Workshop">
+                            <div class="event-overlay">
+                                <span class="event-category">Workshop</span>
+                            </div>
+                        </div>
+                        <div class="event-details">
+                            <h3>Intro to Gemini API</h3>
+                            <p class="event-date">November 15, 2024</p>
+                            <p class="event-description">Learn to build AI-powered applications using Google's Gemini API.</p>
+                            <button class="btn btn-primary">Learn More</button>
+                        </div>
+                    </div>
+                    <div class="event-card card">
+                        <div class="event-image">
+                            <img src="https://picsum.photos/seed/techtalk/600/400" alt="Tech Talk">
+                            <div class="event-overlay">
+                                <span class="event-category">Meetup</span>
+                            </div>
+                        </div>
+                        <div class="event-details">
+                            <h3>Tech Talk Series</h3>
+                            <p class="event-date">December 5, 2024</p>
+                            <p class="event-description">Monthly tech talks featuring industry experts and alumni.</p>
+                            <button class="btn btn-primary">Learn More</button>
+                        </div>
+                    </div>
+                    <div class="event-card card">
+                        <div class="event-image">
+                            <img src="https://picsum.photos/seed/webdev/600/400" alt="Web Development Bootcamp">
+                            <div class="event-overlay">
+                                <span class="event-category">Workshop</span>
+                            </div>
+                        </div>
+                        <div class="event-details">
+                            <h3>Web Development Bootcamp</h3>
+                            <p class="event-date">December 20, 2024</p>
+                            <p class="event-description">Intensive workshop on modern web development technologies.</p>
+                            <button class="btn btn-primary">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Past Events Timeline -->
+        <section class="timeline-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Past Events</h2>
+                    <p>A look back at the milestones and events that have shaped FACE into the thriving community it is today.</p>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-date">December 2024</div>
+                            <h3>SLAC 2024 - Winter Edition</h3>
+                            <p>Our biggest hackathon yet with 400+ participants from across India. 24 hours of intense coding, innovation, and collaboration.</p>
+                            <div class="timeline-highlights">
+                                <span class="highlight-tag">₹75,000+ Prizes</span>
+                                <span class="highlight-tag">400+ Participants</span>
+                                <span class="highlight-tag">50+ Projects</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-date">October 2024</div>
+                            <h3>Web Development Bootcamp</h3>
+                            <p>Intensive 6-week bootcamp covering HTML, CSS, JavaScript, React, and Node.js. 150+ students completed the program.</p>
+                            <div class="timeline-highlights">
+                                <span class="highlight-tag">6 Weeks</span>
+                                <span class="highlight-tag">150+ Students</span>
+                                <span class="highlight-tag">Full Stack</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-date">August 2024</div>
+                            <h3>Code Sprint 2024</h3>
+                            <p>Weekend coding challenge focused on problem-solving and algorithmic thinking. 200+ participants competed.</p>
+                            <div class="timeline-highlights">
+                                <span class="highlight-tag">48 Hours</span>
+                                <span class="highlight-tag">200+ Coders</span>
+                                <span class="highlight-tag">Algorithms</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="FaceLogo.png" alt="FACE Logo" class="footer-logo">
+                    <p>Building the future, one line of code at a time.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                            <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                            <li><a href="events.html"><i class="fas fa-calendar"></i> Events</a></li>
+                            <li><a href="team.html"><i class="fas fa-users"></i> Team</a></li>
+                            <li><a href="credits.html"><i class="fas fa-star"></i> Credits</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Connect</h4>
+                        <ul>
+                            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                            <li><a href="#"><i class="fab fa-discord"></i> Discord</a></li>
+                            <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                            <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
+                            <li><a href="#"><i class="fab fa-github"></i> GitHub</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 FACE - Amrita Bengaluru. All rights reserved.</p>
+                <p>Built with ❤️ by the FACE development team</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
