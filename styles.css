@@ -542,17 +542,22 @@ section {
 .highlight-tag { background: rgba(0, 191, 255, 0.1); color: var(--brand-secondary); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-family: var(--font-mono); border: 1px solid var(--border-color); }
 
 /* Contact & Credits Sections */
-.contact-grid { display: grid; grid-template-columns: 1fr; gap: 3rem; }
-.contact-info { display: grid; grid-template-columns: 1fr; gap: 2rem; }
-.contact-item { display: flex; align-items: center; gap: 1.5rem; padding: 2rem; }
+.contact-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+.contact-item-link {
+    text-decoration: none;
+    color: inherit;
+    display: block; /* Make anchor fill the grid cell */
+}
+.contact-item { display: flex; align-items: center; gap: 1.5rem; padding: 2rem; height: 100%;}
 .contact-icon { font-size: 1.5rem; color: var(--brand-primary); }
 .contact-details h3 { font-size: 1.1rem; color: #fff; margin-bottom: 0.25rem; font-family: var(--font-mono); }
 .contact-details p { color: var(--text-muted); }
-.newsletter-signup { padding: 2.5rem; }
-.newsletter-signup h3 { font-size: 1.3rem; color: #fff; margin-bottom: 1rem; font-family: var(--font-mono); }
-.form-group { display: flex; gap: 1rem; }
-.form-group input { flex: 1; padding: 0.75rem; background: var(--dark-bg); border: 1px solid var(--border-color); border-radius: 6px; color: var(--dark-text); font-family: inherit; }
-.form-group input:focus { outline: none; border-color: var(--brand-primary); box-shadow: 0 0 0 3px rgba(0, 191, 255, 0.3); }
 
 .credits-category { margin-bottom: 4rem; }
 .credits-category h3 { font-size: 1.8rem; color: #fff; margin-bottom: 2rem; font-family: var(--font-mono); display: flex; align-items: center; gap: 1rem; }
@@ -689,7 +694,6 @@ section {
 @media (min-width: 768px) {
     .hamburger { display: none; }
     .nav-menu { display: flex; }
-    .contact-grid { grid-template-columns: 2fr 1fr; }
     .footer-content { grid-template-columns: 1fr 2fr; }
     .featured-event-card { grid-template-columns: 2fr 1fr; }
 }
