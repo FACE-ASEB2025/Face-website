@@ -25,6 +25,70 @@
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Pilot Command font (local install preferred, then ./fonts/pilotcommand1_2.ttf) */
+@font-face {
+    font-family: 'Pilot Command';
+    src: local('Pilot Command'), local('PilotCommand'), local('PilotCommand-Regular'), url('./fonts/pilotcommand1_2.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Pilot Command';
+    src: local('Pilot Command Bold'), local('PilotCommand-Bold'), url('./fonts/pilotcommand1_2.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Pilot Command';
+    src: local('Pilot Command Black'), local('PilotCommand-Black'), url('./fonts/pilotcommand1_2.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Neue Machina: register Regular and Ultrabold weights so the browser can pick the right face */
+@font-face {
+    font-family: 'Neue Machina';
+    src: local('Neue Machina Regular'), local('NeueMachina-Regular'), url('./fonts/NeueMachina-Regular.otf') format('opentype'), url('fonts/NeueMachina-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Neue Machina';
+    src: local('Neue Machina Ultrabold'), local('NeueMachina-Ultrabold'), url('./fonts/NeueMachina-Ultrabold.otf') format('opentype'), url('fonts/NeueMachina-Ultrabold.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Apply Neue Machina to common UI/mono-like elements from the design (overrides var(--font-mono)) */
+.hero-title,
+.feature-item,
+.event-header h2,
+.event-header h3,
+.highlight,
+.about-card h3,
+.event-category,
+.event-details h3,
+.event-details .event-date,
+.team-category-title,
+.team-division-title,
+.team-card h3,
+.team-role,
+.timeline-content h3,
+.timeline-date,
+.highlight-tag,
+.contact-details h3,
+.newsletter-signup h3,
+.credits-category h3,
+.credit-card h4,
+.footer-section h4 {
+    font-family: 'Neue Machina', var(--font-mono) !important;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -38,7 +102,8 @@ html {
 body {
     background-color: var(--dark-bg);
     color: var(--dark-text);
-    font-family: var(--font-sans);
+    /* Paragraphs and general content use Neue Machina Regular (fallback to --font-sans) */
+    font-family: 'Neue Machina', var(--font-sans);
     line-height: 1.6;
     overflow-x: hidden;
     font-size: 16px;
@@ -97,7 +162,6 @@ body {
 .nav-link {
     color: var(--dark-text);
     text-decoration: none;
-    font-weight: 500;
     padding: 0.5rem 1rem;
     border-radius: 6px;
     transition: var(--transition);
@@ -175,7 +239,7 @@ body {
     font-weight: 700;
     color: #fff;
     margin-top: 0.5rem;
-    font-family: var(--font-mono);
+    font-family: 'Neue Machina', var(--font-mono);
     min-height: 3.5rem;
 }
 
@@ -206,7 +270,7 @@ body {
     gap: 0.5rem;
     color: var(--brand-secondary);
     font-weight: 500;
-    font-family: var(--font-mono);
+    font-family: 'Neue Machina', var(--font-mono);
     padding: 0.5rem 1rem;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
@@ -297,7 +361,7 @@ section {
     font-weight: 900;
     color: #fff;
     margin-top: 0.5rem;
-    font-family: var(--font-mono);
+    font-family: 'Pilot Command', var(--font-mono) !important;
 }
 
 .section-header p {
@@ -338,13 +402,13 @@ section {
 }
 
 .event-content { padding: 2.5rem; }
-.event-header h2 { font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem; font-family: var(--font-mono); }
-.event-header h3 { font-size: 1.1rem; color: var(--brand-primary); margin-bottom: 1.5rem; font-family: var(--font-mono); }
+.event-header h2 { font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem; font-family: 'Neue Machina', var(--font-mono); }
+.event-header h3 { font-size: 1.1rem; color: var(--brand-primary); margin-bottom: 1.5rem; font-family: 'Neue Machina', var(--font-mono); }
 .event-meta { display: flex; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; color: var(--text-muted); }
 .event-date, .event-location { display: flex; align-items: center; gap: 0.5rem; }
 .event-description p { color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem; }
 .event-highlights { display: flex; gap: 2rem; flex-wrap: wrap; }
-.highlight { display: flex; align-items: center; gap: 0.5rem; color: var(--brand-secondary); font-family: var(--font-mono); font-size: 0.9rem; }
+.highlight { display: flex; align-items: center; gap: 0.5rem; color: var(--brand-secondary); font-family: 'Neue Machina', var(--font-mono); font-size: 0.9rem; }
 .event-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
 
 .event-visual { padding: 0; overflow: hidden; display: flex; justify-content: flex-start;}
@@ -367,7 +431,7 @@ section {
 .about-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
 .about-card { padding: 2.5rem; text-align: center; }
 .about-card .card-icon { font-size: 3rem; color: var(--brand-primary); margin-bottom: 1.5rem; }
-.about-card h3 { font-size: 1.3rem; color: #fff; margin-bottom: 1rem; font-family: var(--font-mono); }
+.about-card h3 { font-size: 1.3rem; color: #fff; margin-bottom: 1rem; font-family: 'Neue Machina', var(--font-mono); }
 .about-card p { color: var(--text-muted); }
 
 /* Events Section */
@@ -381,10 +445,10 @@ section {
 .event-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
 .event-card:hover .event-image img { transform: scale(1.05); }
 .event-overlay { position: absolute; top: 1rem; right: 1rem; }
-.event-category { background: rgba(10, 10, 26, 0.8); backdrop-filter: blur(5px); color: var(--brand-secondary); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; font-family: var(--font-mono); border: 1px solid var(--border-color); }
+.event-category { background: rgba(10, 10, 26, 0.8); backdrop-filter: blur(5px); color: var(--brand-secondary); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; font-family: 'Neue Machina', var(--font-mono); border: 1px solid var(--border-color); }
 .event-details { padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; }
-.event-details h3 { font-size: 1.2rem; color: #fff; margin-bottom: 0.5rem; font-family: var(--font-mono); }
-.event-details .event-date { color: var(--brand-primary); font-family: var(--font-mono); font-size: 0.8rem; margin-bottom: 1rem; }
+.event-details h3 { font-size: 1.2rem; color: #fff; margin-bottom: 0.5rem; font-family: 'Neue Machina', var(--font-mono); }
+.event-details .event-date { color: var(--brand-primary); font-family: 'Neue Machina', var(--font-mono); font-size: 0.8rem; margin-bottom: 1rem; }
 .event-details .event-description { color: var(--text-muted); margin-bottom: 1.5rem; flex-grow: 1; }
 
 /* Team Section */
