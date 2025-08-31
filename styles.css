@@ -25,6 +25,70 @@
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Pilot Command font (local install preferred, then ./fonts/pilotcommand1_2.ttf) */
+@font-face {
+    font-family: 'Pilot Command';
+    src: local('Pilot Command'), local('PilotCommand'), local('PilotCommand-Regular'), url('./fonts/pilotcommand1_2.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Pilot Command';
+    src: local('Pilot Command Bold'), local('PilotCommand-Bold'), url('./fonts/pilotcommand1_2.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Pilot Command';
+    src: local('Pilot Command Black'), local('PilotCommand-Black'), url('./fonts/pilotcommand1_2.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Neue Machina: register Regular and Ultrabold weights so the browser can pick the right face */
+@font-face {
+    font-family: 'Neue Machina';
+    src: local('Neue Machina Regular'), local('NeueMachina-Regular'), url('./fonts/NeueMachina-Regular.otf') format('opentype'), url('fonts/NeueMachina-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Neue Machina';
+    src: local('Neue Machina Ultrabold'), local('NeueMachina-Ultrabold'), url('./fonts/NeueMachina-Ultrabold.otf') format('opentype'), url('fonts/NeueMachina-Ultrabold.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Apply Neue Machina to common UI/mono-like elements from the design (overrides var(--font-mono)) */
+.hero-title,
+.feature-item,
+.event-header h2,
+.event-header h3,
+.highlight,
+.about-card h3,
+.event-category,
+.event-details h3,
+.event-details .event-date,
+.team-category-title,
+.team-division-title,
+.team-card h3,
+.team-role,
+.timeline-content h3,
+.timeline-date,
+.highlight-tag,
+.contact-details h3,
+.newsletter-signup h3,
+.credits-category h3,
+.credit-card h4,
+.footer-section h4 {
+    font-family: 'Neue Machina', var(--font-mono) !important;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -39,7 +103,8 @@ html {
 body {
     background-color: var(--dark-bg);
     color: var(--dark-text);
-    font-family: var(--font-sans);
+    /* Paragraphs and general content use Neue Machina Regular (fallback to --font-sans) */
+    font-family: 'Neue Machina', var(--font-sans);
     line-height: 1.6;
     overflow-x: hidden;
     font-size: 16px;
@@ -98,10 +163,12 @@ body {
 .nav-link {
     color: var(--dark-text);
     text-decoration: none;
-    font-weight: 500;
     padding: 0.5rem 1rem;
     border-radius: 6px;
     transition: var(--transition);
+    /* Navbar links use Neue Machina Regular for clarity */
+    font-family: 'Neue Machina', var(--font-sans);
+    font-weight: 400;
 }
 
 .nav-link:hover {
@@ -112,7 +179,9 @@ body {
 .nav-link.active {
     background-color: var(--brand-primary);
     color: #fff;
-    font-weight: 600;
+    /* Active link should use the Ultrabold Neue Machina for emphasis */
+    font-family: 'Neue Machina', var(--font-sans);
+    font-weight: 800;
 }
 
 .hamburger {
@@ -176,7 +245,7 @@ body {
     font-weight: 700;
     color: #fff;
     margin-top: 0.5rem;
-    font-family: var(--font-mono);
+    font-family: 'Neue Machina', var(--font-mono);
     min-height: 3.5rem;
 }
 
@@ -207,7 +276,7 @@ body {
     gap: 0.5rem;
     color: var(--brand-secondary);
     font-weight: 500;
-    font-family: var(--font-mono);
+    font-family: 'Neue Machina', var(--font-mono);
     padding: 0.5rem 1rem;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
@@ -298,7 +367,7 @@ section {
     font-weight: 900;
     color: #fff;
     margin-top: 0.5rem;
-    font-family: var(--font-mono);
+    font-family: 'Pilot Command', var(--font-mono) !important;
 }
 
 .section-header p {
@@ -339,13 +408,13 @@ section {
 }
 
 .event-content { padding: 2.5rem; }
-.event-header h2 { font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem; font-family: var(--font-mono); }
-.event-header h3 { font-size: 1.1rem; color: var(--brand-primary); margin-bottom: 1.5rem; font-family: var(--font-mono); }
+.event-header h2 { font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem; font-family: 'Neue Machina', var(--font-mono); }
+.event-header h3 { font-size: 1.1rem; color: var(--brand-primary); margin-bottom: 1.5rem; font-family: 'Neue Machina', var(--font-mono); }
 .event-meta { display: flex; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; color: var(--text-muted); }
 .event-date, .event-location { display: flex; align-items: center; gap: 0.5rem; }
 .event-description p { color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem; }
 .event-highlights { display: flex; gap: 2rem; flex-wrap: wrap; }
-.highlight { display: flex; align-items: center; gap: 0.5rem; color: var(--brand-secondary); font-family: var(--font-mono); font-size: 0.9rem; }
+.highlight { display: flex; align-items: center; gap: 0.5rem; color: var(--brand-secondary); font-family: 'Neue Machina', var(--font-mono); font-size: 0.9rem; }
 .event-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
 
 .event-visual { padding: 0; overflow: hidden; display: flex; justify-content: flex-start;}
@@ -368,7 +437,7 @@ section {
 .about-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
 .about-card { padding: 2.5rem; text-align: center; }
 .about-card .card-icon { font-size: 3rem; color: var(--brand-primary); margin-bottom: 1.5rem; }
-.about-card h3 { font-size: 1.3rem; color: #fff; margin-bottom: 1rem; font-family: var(--font-mono); }
+.about-card h3 { font-size: 1.3rem; color: #fff; margin-bottom: 1rem; font-family: 'Neue Machina', var(--font-mono); }
 .about-card p { color: var(--text-muted); }
 
 /* Events Section */
@@ -382,10 +451,10 @@ section {
 .event-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
 .event-card:hover .event-image img { transform: scale(1.05); }
 .event-overlay { position: absolute; top: 1rem; right: 1rem; }
-.event-category { background: rgba(10, 10, 26, 0.8); backdrop-filter: blur(5px); color: var(--brand-secondary); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; font-family: var(--font-mono); border: 1px solid var(--border-color); }
+.event-category { background: rgba(10, 10, 26, 0.8); backdrop-filter: blur(5px); color: var(--brand-secondary); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; font-family: 'Neue Machina', var(--font-mono); border: 1px solid var(--border-color); }
 .event-details { padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; }
-.event-details h3 { font-size: 1.2rem; color: #fff; margin-bottom: 0.5rem; font-family: var(--font-mono); }
-.event-details .event-date { color: var(--brand-primary); font-family: var(--font-mono); font-size: 0.8rem; margin-bottom: 1rem; }
+.event-details h3 { font-size: 1.2rem; color: #fff; margin-bottom: 0.5rem; font-family: 'Neue Machina', var(--font-mono); }
+.event-details .event-date { color: var(--brand-primary); font-family: 'Neue Machina', var(--font-mono); font-size: 0.8rem; margin-bottom: 1rem; }
 .event-details .event-description { color: var(--text-muted); margin-bottom: 1.5rem; flex-grow: 1; }
 
 /* Team Section */
@@ -416,14 +485,11 @@ section {
 }
 
 .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 2rem; }
-.team-grid-exec {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1.5rem;
-}
+.team-grid-exec { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
 
 .team-card {
     padding: 0;
-    text-align: center;
+    text-align: left;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -437,11 +503,10 @@ section {
 
 .team-card .team-image {
     width: 100%;
-    height: 340px;
+    height: 300px;
     border-radius: 0;
     margin: 0;
     border: none;
-    box-shadow: none;
     object-fit: cover;
     object-position: center center;
     transition: transform 0.4s ease, filter 0.4s ease;
@@ -472,7 +537,7 @@ section {
 
 .team-social {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 1rem;
     margin-top: 1rem;
     font-size: 1.25rem;
@@ -486,42 +551,38 @@ section {
     transform: translateY(-2px);
 }
 
-/* Executive card adjustments for a more compact look */
-.team-grid-exec .team-card .team-image {
-    height: 260px;
+.office-bearers-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    justify-content: center;
 }
 
-.team-grid-exec .team-card .team-info {
-    padding: 1.2rem;
+@media (min-width: 920px) {
+    .office-bearers-grid {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 870px; /* (250px * 3) + (2rem * 2) */
+        margin: 0 auto;
+    }
+    .office-bearers-grid .president {
+        grid-column: 1 / -1;
+        max-width: 282px; /* 250px + some room */
+        justify-self: center;
+        margin-bottom: 1rem;
+    }
 }
-
-.team-grid-exec .team-card h3 {
-    font-size: 1.1rem;
-}
-
-.team-grid-exec .team-card .team-role {
-    font-size: 0.85rem;
-}
-
-/* Credits Page Development Team Card Override */
-.credits-section .team-card {
-    text-align: left;
-}
-
-.credits-section .team-card .team-info {
-    padding: 1.5rem;
-}
-
-.credits-section .team-card h3 {
-    text-align: left;
-}
-
-.credits-section .team-card .team-role {
-    text-align: left;
-}
-
-.credits-section .team-card .team-social {
-    justify-content: flex-start;
+@media (min-width: 620px) and (max-width: 919px) {
+    .office-bearers-grid {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 580px; /* (250px * 2) + 2rem */
+        margin: 0 auto;
+    }
+    .office-bearers-grid .president {
+        grid-column: 1 / -1;
+        max-width: 282px;
+        justify-self: center;
+        margin-bottom: 1rem;
+    }
 }
 
 /* Timeline Section */
@@ -558,58 +619,12 @@ section {
 .credits-category h3 { font-size: 1.8rem; color: #fff; margin-bottom: 2rem; font-family: var(--font-mono); display: flex; align-items: center; gap: 1rem; }
 .credits-category h3 i { color: var(--brand-primary); }
 .credits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-.credit-card {
-    padding: 2.5rem;
-    display: flex;
-    flex-direction: column;
-}
-.credit-icon {
-    font-size: 2.5rem;
-    color: var(--brand-primary);
-    margin-bottom: 1.5rem;
-}
-.credit-card h4 {
-    font-family: var(--font-mono);
-    color: #fff;
-    margin-bottom: 0.5rem;
-}
-.credit-card p {
-    color: var(--text-muted);
-    flex-grow: 1; /* Pushes the link to the bottom */
-}
-.credit-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--brand-secondary);
-    text-decoration: none;
-    font-weight: 600;
-    margin-top: 1.5rem;
-    transition: var(--transition);
-}
-.credit-link:hover {
-    color: var(--brand-primary);
-    transform: translateX(4px);
-}
+.credit-card { padding: 2.5rem; }
+.credit-card h4 { font-family: var(--font-mono); color: #fff; }
 .tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem; }
 .tech-item { padding: 1.5rem; text-align: center; }
 .thanks-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
-.thanks-card {
-    padding: 2rem;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Vertically center content */
-}
-.thanks-card h4 {
-    font-family: var(--font-mono);
-    color: #fff;
-    margin-bottom: 1rem;
-}
-.thanks-card p {
-    color: var(--text-muted);
-}
-
+.thanks-card { padding: 2rem; text-align: center; }
 
 /* Footer */
 .footer { background: var(--dark-card); border-top: 1px solid var(--border-color); padding: 3rem 0; margin-top: 4rem; }
@@ -679,13 +694,6 @@ section {
 @keyframes blink { 50% { opacity: 0; } }
 
 /* Responsive Media Queries */
-@media (min-width: 992px) {
-    .team-grid-ob {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1.5rem;
-    }
-}
-
 @media (min-width: 768px) {
     .hamburger { display: none; }
     .nav-menu { display: flex; }
@@ -698,6 +706,26 @@ section {
     .nav-menu { position: absolute; top: 100%; left: 0; right: 0; background-color: var(--dark-card); flex-direction: column; padding: 1rem; border-bottom: 1px solid var(--border-color); display: none; }
     .nav-menu.active { display: flex; }
     .nav-container { padding: 0.5rem 1.5rem; }
+    /* Ensure mobile nav uses Neue Machina Regular and active items use Ultrabold */
+    .nav-menu {
+        font-family: 'Neue Machina', var(--font-sans);
+    }
+    .nav-menu .nav-link {
+        font-family: inherit;
+        font-weight: 400;
+    }
+    .nav-menu .nav-link.active {
+        font-family: inherit;
+        font-weight: 800;
+    }
+    /* Brand and hamburger should also use Neue Machina on mobile */
+    .nav-brand a {
+        font-family: 'Neue Machina', var(--font-sans);
+        font-weight: 400;
+    }
+    .hamburger {
+        font-family: 'Neue Machina', var(--font-sans);
+    }
     .hero-main-title { font-size: 3rem; }
     .hero-title { font-size: 2rem; min-height: 2.5rem;}
     .featured-event-card { grid-template-columns: 1fr; }
