@@ -7,20 +7,19 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeAnimations();
 
     // Initialize page-specific live backgrounds
-    if (document.getElementById('live-background')) {
-        initializeHomepageBackground();
+    const homeCanvas = document.getElementById('home-background');
+    const pageCanvas = document.getElementById('page-background');
+
+    if (homeCanvas) {
+        runDigitalRainAnimation(homeCanvas);
+    } else if (pageCanvas) {
+        runCircuitAnimation(pageCanvas);
     }
-    const subtleBackgroundPages = ['about-background', 'events-background', 'team-background', 'contact-background', 'credits-background'];
-    subtleBackgroundPages.forEach(id => {
-        if (document.getElementById(id)) {
-            initializeSubtleBackground(id);
-        }
-    });
 });
 
-// Digital Rain background for the homepage (slowed down)
-function initializeHomepageBackground() {
-    const canvas = document.getElementById('live-background');
+
+// "Digital Rain" background for the homepage
+function runDigitalRainAnimation(canvas) {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     let animationFrameId;
@@ -30,8 +29,7 @@ function initializeHomepageBackground() {
     const fontSize = 16;
     const characters = '01{}[]()<>/*|&=?!:;,.^%$_';
 
-    // Time-based animation control for speed
-    const fps = 16; // Increased from 8 to 16 for a faster effect
+    const fps = 20;
     const fpsInterval = 1000 / fps;
     let then = 0;
 
@@ -45,20 +43,17 @@ function initializeHomepageBackground() {
             drops[x] = 1;
         }
         
-        if (animationFrameId) {
-            cancelAnimationFrame(animationFrameId);
-        }
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
         then = Date.now();
         animate();
     };
 
     const draw = () => {
-        // Slower fade by reducing the alpha value
         ctx.fillStyle = 'rgba(10, 10, 26, 0.05)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
-        ctx.fillStyle = 'rgba(0, 191, 255, 0.7)'; // Themed color
-        ctx.font = `${fontSize}px 'Share Tech Mono', monospace`;
+        ctx.fillStyle = 'rgba(40, 80, 160, 0.7)'; // Themed color
+        ctx.font = `${fontSize}px 'Roboto Mono', monospace`;
 
         for (let i = 0; i < drops.length; i++) {
             const text = characters.charAt(Math.floor(Math.random() * characters.length));
@@ -73,121 +68,119 @@ function initializeHomepageBackground() {
     
     const animate = () => {
         animationFrameId = requestAnimationFrame(animate);
-
         const now = Date.now();
         const elapsed = now - then;
-
         if (elapsed > fpsInterval) {
             then = now - (elapsed % fpsInterval);
             draw();
         }
     }
-
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(setup, 250);
-    });
-
+    window.addEventListener('resize', setup);
     setup();
 }
 
 
-// "Fluid Light" background for secondary pages
-function initializeSubtleBackground(canvasId) {
-    const canvas = document.getElementById(canvasId);
-    if (!canvas) return;
+// "Binary Stream" background for secondary pages
+function runCircuitAnimation(canvas) {
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+  
     let animationFrameId;
 
-    // A pure, soft white for the blob
-    const blobColor = 'rgba(255, 255, 255, 0.8)';
-
-    let orbs = [];
-    const numOrbs = 5; // More, medium-sized orbs
-    const baseSpeed = 0.5; // A bit more movement
-
-    class Orb {
-        constructor() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            // Medium radius for a balanced, fluid feel
-            this.radius = Math.random() * 100 + 100; // Radius between 100 and 200
-            this.vx = (Math.random() - 0.5) * baseSpeed;
-            this.vy = (Math.random() - 0.5) * baseSpeed;
-            this.color = blobColor;
+    class BinaryParticle {
+        constructor(w, h) {
+            this.respawn(w, h);
         }
 
-        update() {
-            this.x += this.vx;
-            this.y += this.vy;
-
-            // Make them bounce off the walls gently
-            if (this.x - this.radius < 0) {
-                this.x = this.radius;
-                this.vx *= -1;
-            }
-            if (this.x + this.radius > canvas.width) {
-                this.x = canvas.width - this.radius;
-                this.vx *= -1;
-            }
-            if (this.y - this.radius < 0) {
-                this.y = this.radius;
-                this.vy *= -1;
-            }
-            if (this.y + this.radius > canvas.height) {
-                this.y = canvas.height - this.radius;
-                this.vy *= -1;
+        respawn(w, h) {
+            this.x = (Math.random() - 0.5) * w;
+            this.y = (Math.random() - 0.5) * h;
+            this.z = Math.random() * w;
+            this.char = Math.random() > 0.5 ? '1' : '0';
+            this.vz = Math.random() * 2 + 1;
+        }
+        
+        update(w, h) {
+            this.z -= this.vz;
+            if (this.z < 1) {
+                this.respawn(w, h);
             }
         }
 
-        draw() {
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-            ctx.fillStyle = this.color;
-            ctx.fill();
+        draw(ctx, w, h) {
+            const fov = w * 0.5;
+            const scale = fov / (fov + this.z);
+            const sx = this.x * scale + w / 2;
+            const sy = this.y * scale + h / 2;
+
+            if (sx < 0 || sx > w || sy < 0 || sy > h) {
+                return;
+            }
+            
+            const fontSize = Math.max(1, scale * 20);
+            const opacity = (1 - this.z / w) * 0.8;
+
+            ctx.font = `${fontSize}px 'Roboto Mono', monospace`;
+            ctx.fillStyle = `rgba(40, 80, 160, ${opacity})`;
+            ctx.shadowColor = `rgba(40, 80, 160, 0.8)`;
+            ctx.shadowBlur = 10;
+            ctx.fillText(this.char, sx, sy);
         }
     }
 
+    let particles = [];
+    
     const setup = () => {
-        if (animationFrameId) cancelAnimationFrame(animationFrameId);
-        
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-
-        orbs = [];
-        for (let i = 0; i < numOrbs; i++) {
-            orbs.push(new Orb());
-        }
         
+        particles = [];
+        const numParticles = Math.floor((canvas.width * canvas.height) / 5000);
+        for (let i = 0; i < numParticles; i++) {
+            particles.push(new BinaryParticle(canvas.width, canvas.height));
+        }
+
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
         animate();
     };
 
+    const drawBackgroundCircuit = (ctx, w, h) => {
+        ctx.strokeStyle = "rgba(40, 80, 160, 0.05)";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for(let i=0; i < 20; i++) {
+            const x1 = Math.random() * w;
+            const y1 = Math.random() * h;
+            const x2 = Math.random() * w;
+            const y2 = Math.random() * h;
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+        }
+        ctx.stroke();
+    };
+
     const animate = () => {
-        // Use the primary dark background color
-        ctx.fillStyle = 'rgb(10, 10, 26)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        const w = canvas.width;
+        const h = canvas.height;
+        
+        ctx.fillStyle = 'rgba(8, 20, 25, 0.25)'; // Dark teal with trail effect
+        ctx.fillRect(0, 0, w, h);
+        
+        ctx.save();
+        drawBackgroundCircuit(ctx, w, h);
+        ctx.restore();
 
-        // Adjusted blur for medium orbs
-        ctx.filter = 'blur(60px) contrast(20)';
-
-        orbs.forEach(orb => {
-            orb.update();
-            orb.draw();
+        ctx.save();
+        particles.forEach(p => {
+            p.update(w, h);
+            p.draw(ctx, w, h);
         });
-
-        // Reset filter to not affect other elements if canvas isn't full screen
-        ctx.filter = 'none';
+        ctx.restore();
 
         animationFrameId = requestAnimationFrame(animate);
     };
-
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(setup, 250);
-    });
-
+  
+    window.addEventListener('resize', setup);
     setup();
 }
 
@@ -241,14 +234,6 @@ function initializeMobileMenu() {
             hamburger.classList.toggle('active');
         });
         
-        const mobileNavLinks = navMenu.querySelectorAll('.nav-link');
-        mobileNavLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                navMenu.classList.remove('active');
-                hamburger.classList.remove('active');
-            });
-        });
-        
         document.addEventListener('click', function(e) {
             if (navMenu.classList.contains('active') && !hamburger.contains(e.target) && !navMenu.contains(e.target)) {
                 navMenu.classList.remove('active');
@@ -288,7 +273,7 @@ function initializeAnimations() {
         rootMargin: '0px 0px -50px 0px'
     });
 
-    const elementsToAnimate = document.querySelectorAll('.card, .section-header');
+    const elementsToAnimate = document.querySelectorAll('.card, .section-header, .featured-event-card');
     elementsToAnimate.forEach(el => {
         observer.observe(el);
     });
