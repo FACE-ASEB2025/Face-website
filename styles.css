@@ -5,6 +5,28 @@
     ========================================
 */
 
+/* Font Face Declarations */
+@font-face {
+    font-family: 'Pilot Command';
+    src: url('./fonts/pilotcommand1_2.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NeueMachina-Regular';
+    src: url('./fonts/NeueMachina-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NeueMachina-Ultrabold';
+    src: url('./fonts/NeueMachina-Ultrabold.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* 1. Root Variables and Base Styles */
 :root {
     --brand-primary: #00BFFF; /* DeepSkyBlue */
@@ -15,8 +37,8 @@
     --text-muted: #a0a0b0;
     --border-color: rgba(0, 191, 255, 0.2);
 
-    --font-sans: 'Inter', sans-serif;
-    --font-mono: 'Roboto Mono', monospace;
+    --font-sans: 'NeueMachina-Regular', sans-serif;
+    --font-mono: 'NeueMachina-Ultrabold', sans-serif;
 
     --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.3);
     --shadow-medium: 0 10px 25px rgba(0, 191, 255, 0.2);
@@ -165,7 +187,7 @@ canvas {
 }
 
 .hero-main-title {
-    font-family: var(--font-sans);
+    font-family: 'Inter', sans-serif;
     font-weight: 900;
     font-size: 4.5rem;
     color: #fff;
@@ -187,7 +209,7 @@ canvas {
     font-weight: 700;
     color: #fff;
     margin-top: 0.5rem;
-    font-family: var(--font-mono);
+    font-family: 'NeueMachina-Ultrabold', sans-serif;
     min-height: 3.5rem;
 }
 
@@ -202,6 +224,7 @@ canvas {
     margin: 1.5rem auto 2.5rem;
     font-size: 1.1rem;
     color: var(--text-muted);
+    font-family: 'NeueMachina-Regular', sans-serif;
 }
 
 .hero-features {
@@ -218,7 +241,7 @@ canvas {
     gap: 0.5rem;
     color: var(--brand-secondary);
     font-weight: 500;
-    font-family: var(--font-mono);
+    font-family: 'NeueMachina-Ultrabold', sans-serif;
     padding: 0.5rem 1rem;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
@@ -251,6 +274,7 @@ canvas {
     background: transparent;
     text-decoration: none;
     cursor: pointer;
+    font-family: 'NeueMachina-Ultrabold', sans-serif;
 }
 
 .btn:hover {
@@ -296,7 +320,7 @@ section {
     font-weight: 900;
     color: #fff;
     margin-top: 0.5rem;
-    font-family: var(--font-mono);
+    font-family: 'Pilot command', sans-serif;
 }
 
 .section-header p {
@@ -304,6 +328,7 @@ section {
     margin: 1rem auto 0;
     font-size: 1.125rem;
     color: var(--text-muted);
+    font-family: 'NeueMachina-Regular', sans-serif;
 }
 
 .card {
@@ -338,13 +363,13 @@ section {
 }
 
 .event-content { padding: 2.5rem; }
-.event-header h2 { font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem; font-family: var(--font-mono); }
-.event-header h3 { font-size: 1.1rem; color: var(--brand-primary); margin-bottom: 1.5rem; font-family: var(--font-mono); }
-.event-meta { display: flex; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; color: var(--text-muted); }
+.event-header h2 { font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem; font-family: 'NeueMachina-Ultrabold', sans-serif; }
+.event-header h3 { font-size: 1.1rem; color: var(--brand-primary); margin-bottom: 1.5rem; font-family: 'NeueMachina-Ultrabold', sans-serif; }
+.event-meta { display: flex; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; color: var(--text-muted); font-family: 'NeueMachina-Regular', sans-serif; }
 .event-date, .event-location { display: flex; align-items: center; gap: 0.5rem; }
-.event-description p { color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem; }
+.event-description p { color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem; font-family: 'NeueMachina-Regular', sans-serif; }
 .event-highlights { display: flex; gap: 2rem; flex-wrap: wrap; }
-.highlight { display: flex; align-items: center; gap: 0.5rem; color: var(--brand-secondary); font-family: var(--font-mono); font-size: 0.9rem; }
+.highlight { display: flex; align-items: center; gap: 0.5rem; color: var(--brand-secondary); font-family: 'NeueMachina-Ultrabold', sans-serif; font-size: 0.9rem; }
 .event-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
 
 .event-visual { overflow: hidden; display: flex; justify-content: center; align-items: center; padding: 2rem;}
@@ -369,8 +394,8 @@ section {
 }
 .about-card { padding: 2.5rem; text-align: center; }
 .about-card .card-icon { font-size: 3rem; color: var(--brand-primary); margin-bottom: 1.5rem; }
-.about-card h3 { font-size: 1.3rem; color: #fff; margin-bottom: 1rem; font-family: var(--font-mono); }
-.about-card p { color: var(--text-muted); }
+.about-card h3 { font-size: 1.3rem; color: #fff; margin-bottom: 1rem; font-family: 'NeueMachina-Ultrabold', sans-serif; }
+.about-card p { color: var(--text-muted); font-family: 'NeueMachina-Regular', sans-serif; }
 
 
 /* Events Section */
@@ -449,7 +474,7 @@ Past Events Section - Styles for future use
 .team-category { margin-bottom: 4rem; }
 .team-category-title {
     font-size: 2rem;
-    font-family: var(--font-mono);
+    font-family: 'NeueMachina-Ultrabold', sans-serif;
     color: #fff;
     margin-bottom: 2rem;
     text-align: center;
@@ -463,7 +488,7 @@ Past Events Section - Styles for future use
 .team-division { margin-bottom: 3rem; }
 .team-division-title {
     font-size: 1.5rem;
-    font-family: var(--font-mono);
+    font-family: 'NeueMachina-Ultrabold', sans-serif;
     color: var(--brand-secondary);
     margin-bottom: 1.5rem;
 }
@@ -487,8 +512,8 @@ Past Events Section - Styles for future use
     transition: transform 0.4s ease;
 }
 .team-card .team-info { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
-.team-card h3 { font-size: 1.25rem; font-weight: 700; color: #fff; margin: 0 0 0.25rem; }
-.team-card .team-role { color: var(--brand-primary); margin-bottom: 1rem; font-family: var(--font-mono); font-size: 0.9rem; flex-grow: 1; }
+.team-card h3 { font-size: 1.25rem; font-weight: 700; color: #fff; margin: 0 0 0.25rem; font-family: 'NeueMachina-Ultrabold', sans-serif; }
+.team-card .team-role { color: var(--brand-primary); margin-bottom: 1rem; font-family: 'NeueMachina-Ultrabold', sans-serif; font-size: 0.9rem; flex-grow: 1; }
 .team-card .team-social { display: flex; justify-content: flex-start; gap: 1rem; margin-top: 1rem; font-size: 1.25rem; }
 .team-card .team-social a { color: var(--text-muted); transition: var(--transition); }
 .team-card .team-social a:hover { color: var(--brand-secondary); transform: translateY(-2px); }
@@ -529,8 +554,8 @@ Past Events Section - Styles for future use
 }
 .contact-item { display: flex; align-items: center; gap: 1.5rem; padding: 2rem; height: 100%;}
 .contact-icon { font-size: 1.5rem; color: var(--brand-primary); }
-.contact-details h3 { font-size: 1.1rem; color: #fff; margin-bottom: 0.25rem; font-family: var(--font-mono); }
-.contact-details p { color: var(--text-muted); }
+.contact-details h3 { font-size: 1.1rem; color: #fff; margin-bottom: 0.25rem; font-family: 'NeueMachina-Ultrabold', sans-serif; }
+.contact-details p { color: var(--text-muted); font-family: 'NeueMachina-Regular', sans-serif; }
 
 .credits-category {
     margin-bottom: 4rem;
@@ -540,7 +565,7 @@ Past Events Section - Styles for future use
     font-size: 1.8rem;
     color: #fff;
     margin-bottom: 2rem;
-    font-family: var(--font-mono);
+    font-family: 'NeueMachina-Ultrabold', sans-serif;
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -589,6 +614,12 @@ Past Events Section - Styles for future use
     transform: translateY(-4px);
 }
 
+.tech-item .tech-name {
+    font-family: 'NeueMachina-Regular', sans-serif;
+    display: block;
+    margin-top: 0.5rem;
+}
+
 .tech-item i {
     font-size: 2.5rem;
     margin-bottom: 1rem;
@@ -602,7 +633,7 @@ Past Events Section - Styles for future use
 .footer-brand .footer-logo { height: 60px; width: auto; margin-bottom: 1rem; }
 .footer-brand p { color: var(--text-muted); }
 .footer-links { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-.footer-section h4 { font-family: var(--font-mono); color: var(--brand-primary); margin-bottom: 1rem; }
+.footer-section h4 { font-family: 'NeueMachina-Ultrabold', sans-serif; color: var(--brand-primary); margin-bottom: 1rem; }
 .footer-section ul { list-style: none; padding-left: 0; }
 .footer-section ul li a {
     color: var(--text-muted);
@@ -612,6 +643,7 @@ Past Events Section - Styles for future use
     margin-bottom: 0.5rem;
     text-decoration: none;
     transition: var(--transition);
+    font-family: 'NeueMachina-Regular', sans-serif;
 }
 .footer-section ul li a:hover {
     color: var(--brand-secondary);
