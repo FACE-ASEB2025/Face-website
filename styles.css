@@ -523,10 +523,17 @@ Past Events Section - Styles for future use
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 1.25rem; /* Further adjusted gap */
+    align-items: stretch; /* 🔑 force equal height */
+    gap: 2rem; /* little more breathing space */
 }
+
 .office-bearers-grid .team-card {
-    width: 260px; /* Further adjusted width to ensure 4 cards fit */
+    width: 260px;
+    height: 460px;
+    flex: 1 1 260px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* content balanced */
 }
 .team-grid-exec { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
 
