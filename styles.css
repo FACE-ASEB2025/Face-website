@@ -551,22 +551,19 @@ Past Events Section - Styles for future use
 }
 
 .credits-category .team-grid {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 280px);
     justify-content: center;
-    gap: 6rem;              /* 🔥 increased spacing a bit more */
+    gap: 6rem;
 }
 
 .credits-category .team-card {
-    flex: 1 1 250px;
-    width: 500px;
-    height: 550px;
-    justify-content: space-between;
     max-width: 280px;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
 }
+
 
 .credits-category .team-image {
     aspect-ratio: 1 / 1;    /* square images */
@@ -636,6 +633,7 @@ Past Events Section - Styles for future use
     transform: translateY(30px);
     transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
+
 .card.visible, .section-header.visible {
     opacity: 1;
     transform: translateY(0);
@@ -686,4 +684,3 @@ Credits Page Alignment Fix
         width: 100%;
     }
 }
-
