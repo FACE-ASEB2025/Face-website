@@ -27,6 +27,13 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'denaregular';
+    src: url('./fonts/denaregular-8omnj.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* 1. Root Variables and Base Styles */
 :root {
     --brand-primary: #00BFFF; /* DeepSkyBlue */
@@ -320,7 +327,7 @@ section {
     font-weight: 900;
     color: #fff;
     margin-top: 0.5rem;
-    font-family: 'Pilot command', sans-serif;
+    font-family: 'denaregular', sans-serif;
 }
 
 .section-header p {
