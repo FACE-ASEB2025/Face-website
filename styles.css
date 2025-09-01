@@ -477,6 +477,9 @@ Past Events Section - Styles for future use
 }
 .team-card:hover .team-image { transform: scale(1.05); }
 .team-card .team-image {
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 1px solid var(--border-color);
     width: 100%;
     height: 300px;
     object-fit: cover;
@@ -491,7 +494,15 @@ Past Events Section - Styles for future use
 .team-card .team-social a:hover { color: var(--brand-secondary); transform: translateY(-2px); }
 
 /* Team Page Specific Layouts */
-.office-bearers-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+.office-bearers-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.25rem; /* Further adjusted gap */
+}
+.office-bearers-grid .team-card {
+    width: 260px; /* Further adjusted width to ensure 4 cards fit */
+}
 .team-grid-exec { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
 
 /* Smaller cards for executives */
@@ -499,14 +510,8 @@ Past Events Section - Styles for future use
 .team-grid-exec .team-card .team-info { padding: 1rem; }
 .team-grid-exec .team-card h3 { font-size: 1.1rem; }
 .team-grid-exec .team-card .team-role { font-size: 0.8rem; margin-bottom: 0.8rem; }
+.tem-role{min-height: 2.5 rem; display: flex; align-items: center; justify-content: center;}
 .team-grid-exec .team-card .team-social { font-size: 1.1rem; gap: 0.8rem; }
-
-@media (min-width: 920px) {
-    /* 4 OBs in a row on large screens */
-    .office-bearers-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
 
 
 /* Contact & Credits Sections */
@@ -527,13 +532,72 @@ Past Events Section - Styles for future use
 .contact-details h3 { font-size: 1.1rem; color: #fff; margin-bottom: 0.25rem; font-family: var(--font-mono); }
 .contact-details p { color: var(--text-muted); }
 
-.credits-category { margin-bottom: 4rem; }
-.credits-category h3 { font-size: 1.8rem; color: #fff; margin-bottom: 2rem; font-family: var(--font-mono); display: flex; align-items: center; gap: 1rem; }
-.credits-category h3 i { color: var(--brand-primary); }
-.credits-category .team-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
-.tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem; }
-.tech-item { padding: 1.5rem; text-align: center; }
-.tech-item i { font-size: 2.5rem; margin-bottom: 1rem; color: var(--brand-secondary); display: block; }
+.credits-category {
+    margin-bottom: 4rem;
+}
+
+.credits-category h3 {
+    font-size: 1.8rem;
+    color: #fff;
+    margin-bottom: 2rem;
+    font-family: var(--font-mono);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.credits-category h3 i {
+    color: var(--brand-primary);
+}
+
+.credits-category .team-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6rem;              /* 🔥 increased spacing a bit more */
+}
+
+.credits-category .team-card {
+    flex: 1 1 250px;
+    width: 500px;
+    height: 550px;
+    justify-content: space-between;
+    max-width: 280px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.credits-category .team-image {
+    aspect-ratio: 1 / 1;    /* square images */
+    object-fit: cover;
+    width: 100%;
+}
+
+
+.tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+}
+
+.tech-item {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.tech-item:hover {
+    background: rgba(0, 191, 255, 0.1);
+    box-shadow: 0 0 20px var(--brand-secondary);
+    transform: translateY(-4px);
+}
+
+.tech-item i {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--brand-secondary);
+    display: block;
+}
 
 /* Footer */
 .footer { background: var(--dark-card); border-top: 1px solid var(--border-color); padding: 3rem 0; margin-top: 4rem; }
@@ -599,3 +663,27 @@ Past Events Section - Styles for future use
 @media (max-width: 480px) {
     .hero-main-title { font-size: 2.2rem; letter-spacing: -1px; }
 }
+
+/*
+========================================
+Credits Page Alignment Fix
+========================================
+*/
+/* This selector targets the role description on the contributor cards,
+   ensuring they have a consistent height to prevent misalignment. */
+.max-w-7xl > section:first-of-type > .grid > .bg-dark-card > div > p.text-text-muted {
+    min-height: 3rem; /* Ensures consistent height for 1 or 2 lines of text */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 480px) {
+    .credits-category h3 {
+        font-size: 1.4rem;
+    }
+    .office-bearers-grid .team-card {
+        width: 100%;
+    }
+}
+
