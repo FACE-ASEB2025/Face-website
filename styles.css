@@ -542,6 +542,17 @@ Past Events Section - Styles for future use
     flex-direction: column;
     justify-content: space-between; /* content balanced */
 }
+.team-card .team-image {
+    aspect-ratio: 1 / 1;     /* ensures square */
+    width: 100%;
+    height: auto;            /* let aspect-ratio handle height */
+    object-fit: cover;       /* crop consistently */
+    object-position: center center;
+    border: 1px solid var(--border-color);
+    transition: transform 0.4s ease;
+}
+
+
 .team-grid-exec { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
 
 /* Smaller cards for executives */
