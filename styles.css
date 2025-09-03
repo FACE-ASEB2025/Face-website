@@ -727,8 +727,8 @@ section {
   }
 
   .office-bearers-grid .team-card {
-    width: 100%;   /* let grid handle width */
-    height: auto;  /* remove fixed height */
+      border-radius: 12px;
+      overflow: hidden; /* remove fixed height */
   }
 
   .office-bearers-grid .team-image {
