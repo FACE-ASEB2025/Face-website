@@ -1,5 +1,4 @@
-/* 
-    ========================================
+/* ========================================
     FACE Website Stylesheet
     Theme: Cyber Glow
     ========================================
@@ -417,66 +416,6 @@ section {
     background: none;
 }
 
-/* 
-========================================
-Past Events Section - Styles for future use
-========================================
-
-.past-events-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2rem;
-}
-
-.past-event-card {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-.past-event-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.past-event-card:hover .past-event-image {
-    transform: scale(1.05);
-}
-
-.past-event-info {
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-}
-
-.past-event-title {
-    font-size: 1.2rem;
-    color: #fff;
-    margin-bottom: 0.5rem;
-}
-
-.past-event-date {
-    color: var(--brand-secondary);
-    font-family: var(--font-mono);
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.past-event-desc {
-    color: var(--text-muted);
-    font-size: 0.95rem;
-    flex-grow: 1;
-}
-
-*/
-
-
 /* Team Section */
 .team-category { margin-bottom: 4rem; }
 .team-category-title {
@@ -505,19 +444,17 @@ Past Events Section - Styles for future use
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    height: 100%;
 }
 .team-card:hover .team-image { transform: scale(1.05); }
+
 .team-card .team-image {
     aspect-ratio: 1/1;
     object-fit: cover;
-    border-radius: 1px solid var(--border-color);
     width: 100%;
-    height: 300px;
-    object-fit: cover;
     object-position: center center;
     transition: transform 0.4s ease;
 }
+
 /* Added to fix portrait image cropping */
 .team-image.portrait-view {
     object-position: center top; 
@@ -539,7 +476,6 @@ Past Events Section - Styles for future use
 
 .office-bearers-grid .team-card {
   width: 100%;
-  height: auto;              /* remove fixed height */
   border-radius: 12px;
   overflow: hidden;
   display: flex;
@@ -573,26 +509,60 @@ Past Events Section - Styles for future use
   justify-content: center;
   margin-top: auto;
 }
-.team-card .team-image {
-    aspect-ratio: 1 / 1;     /* ensures square */
-    width: 100%;
-    height: auto;            /* let aspect-ratio handle height */
-    object-fit: cover;       /* crop consistently */
-    object-position: center center;
-    border: 1px solid var(--border-color);
-    transition: transform 0.4s ease;
+
+.team-grid-exec { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    gap: 1.5rem; 
 }
 
+/* ===== FIX FOR CARD SIZES STARTS HERE ===== */
 
-.team-grid-exec { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+.team-grid-exec .team-card {
+    height: 340px; /* Set a fixed height for all executive cards */
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
 
-/* Smaller cards for executives */
-.team-grid-exec .team-card .team-image { height: 220px; }
-.team-grid-exec .team-card .team-info { padding: 1rem; }
-.team-grid-exec .team-card h3 { font-size: 1.1rem; }
-.team-grid-exec .team-card .team-role { font-size: 0.8rem; margin-bottom: 0.8rem; }
-.tem-role{min-height: 2.5 rem; display: flex; align-items: center; justify-content: center;}
-.team-grid-exec .team-card .team-social { font-size: 1.1rem; gap: 0.8rem; }
+.team-grid-exec .team-card .team-image { 
+    height: 220px; 
+    width: 100%;
+    object-fit: cover;
+    flex-shrink: 0; /* Prevent image from shrinking */
+}
+
+.team-grid-exec .team-card .team-info { 
+    padding: 1rem; 
+    flex-grow: 1; /* Allow this section to fill available space */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+}
+
+.team-grid-exec .team-card h3 { 
+    font-size: 1.1rem; 
+    min-height: 2.6em; /* Reserve space for two lines of text */
+    margin: 0 0 0.5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.team-grid-exec .team-card .team-role { 
+    font-size: 0.8rem; 
+    margin-bottom: 0; 
+}
+
+.tem-role{
+    min-height: 2.5rem; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+}
+
+/* ===== FIX FOR CARD SIZES ENDS HERE ===== */
 
 
 /* Contact & Credits Sections */
