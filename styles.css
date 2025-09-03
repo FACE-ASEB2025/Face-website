@@ -531,20 +531,47 @@ Past Events Section - Styles for future use
 
 /* Team Page Specific Layouts */
 .office-bearers-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: stretch; /* 🔑 force equal height */
-    gap: 2rem; /* little more breathing space */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  justify-content: center;
 }
 
 .office-bearers-grid .team-card {
-    width: 260px;
-    height: 460px;
-    flex: 1 1 260px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* content balanced */
+  width: 100%;
+  height: auto;              /* remove fixed height */
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--dark-card);
+}
+.office-bearers-grid .team-image {
+  width: 100%;
+  height: 250px;             /* consistent image height */
+  object-fit: cover;
+  object-position: center;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.office-bearers-grid .team-info {
+  padding: 1rem;
+  text-align: center;
+}
+
+.office-bearers-grid h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.office-bearers-grid .team-role {
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.office-bearers-grid .team-social {
+  justify-content: center;
+  margin-top: auto;
 }
 .team-card .team-image {
     aspect-ratio: 1 / 1;     /* ensures square */
@@ -777,6 +804,43 @@ Past Events Section - Styles for future use
     margin-top: 0.5rem;
   }
 }
+/* TEAM PAGE STYLES */
+.team-page .team-card {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.team-page .team-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.team-page .team-info {
+  padding: 1rem;
+  text-align: center;
+}
+
+.team-page .team-social {
+  justify-content: center;
+}
+
+
+/* CREDITS PAGE STYLES (keep old design intact) */
+.credits-page .team-card {
+  max-width: 280px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.credits-page .team-image {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  width: 100%;
+}
+
 
 /*
 ========================================
