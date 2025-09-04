@@ -835,3 +835,484 @@ Credits Page Alignment Fix
         width: 100%;
     }
 }
+
+/* 
+========================================
+Past Events Section - NEW CYBER GLOW STYLES
+========================================
+*/
+/* ========================================
+    FACE Website Stylesheet
+    Theme: Cyber Glow
+    ========================================
+*/
+
+/* Font Face Declarations */
+@font-face {
+    font-family: 'Pilot Command';
+    src: url('./fonts/pilotcommand1_2.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NeueMachina-Regular';
+    src: url('./fonts/NeueMachina-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NeueMachina-Ultrabold';
+    src: url('./fonts/NeueMachina-Ultrabold.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'denaregular';
+    src: url('./fonts/denaregular-8omnj.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 1. Root Variables and Base Styles */
+:root {
+    --brand-primary: #00BFFF; /* DeepSkyBlue */
+    --brand-secondary: #7DF9FF; /* Electric Blue */
+    --dark-bg: #0a0a1a;
+    --dark-card: #1a1a2e;
+    --dark-text: #E0E0E0;
+    --text-muted: #a0a0b0;
+    --border-color: rgba(0, 191, 255, 0.2);
+
+    --font-sans: 'NeueMachina-Regular', sans-serif;
+    --font-mono: 'NeueMachina-Ultrabold', sans-serif;
+
+    --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --shadow-medium: 0 10px 25px rgba(0, 191, 255, 0.1);
+}
+
+/*
+============================================================
+PAST EVENTS SECTION - Holographic Grid
+============================================================
+*/
+
+/* ========================================
+    FACE Website Stylesheet
+    Theme: Cyber Glow
+    ========================================
+*/
+
+/* Font Face Declarations */
+@font-face {
+    font-family: 'Pilot Command';
+    src: url('./fonts/pilotcommand1_2.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NeueMachina-Regular';
+    src: url('./fonts/NeueMachina-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NeueMachina-Ultrabold';
+    src: url('./fonts/NeueMachina-Ultrabold.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'denaregular';
+    src: url('./fonts/denaregular-8omnj.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 1. Root Variables and Base Styles */
+:root {
+    --brand-primary: #00BFFF; /* DeepSkyBlue */
+    --brand-secondary: #7DF9FF; /* Electric Blue */
+    --dark-bg: #0a0a1a;
+    --dark-card: #1a1a2e;
+    --dark-text: #E0E0E0;
+    --text-muted: #a0a0b0;
+    --border-color: rgba(0, 191, 255, 0.2);
+
+    --font-sans: 'NeueMachina-Regular', sans-serif;
+    --font-mono: 'NeueMachina-Ultrabold', sans-serif;
+
+    --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --shadow-medium: 0 10px 25px rgba(0, 191, 255, 0.1);
+}
+
+/* 
+============================================================
+PAST EVENTS SECTION - Industrial Mecha
+============================================================
+*/
+
+/* ========================================
+    FACE Website Stylesheet
+    Theme: Cyber Glow
+    ========================================
+*/
+
+/* Font Face Declarations */
+@font-face {
+    font-family: 'Pilot Command';
+    src: url('./fonts/pilotcommand1_2.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NeueMachina-Regular';
+    src: url('./fonts/NeueMachina-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NeueMachina-Ultrabold';
+    src: url('./fonts/NeueMachina-Ultrabold.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'denaregular';
+    src: url('./fonts/denaregular-8omnj.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 1. Root Variables and Base Styles */
+:root {
+    --brand-primary: #00BFFF; /* DeepSkyBlue */
+    --brand-secondary: #7DF9FF; /* Electric Blue */
+    --dark-bg: #0a0a1a;
+    --dark-card: #1a1a2e;
+    --dark-text: #E0E0E0;
+    --text-muted: #a0a0b0;
+    --border-color: rgba(0, 191, 255, 0.2);
+
+    --font-sans: 'NeueMachina-Regular', sans-serif;
+    --font-mono: 'NeueMachina-Ultrabold', sans-serif;
+
+    --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --shadow-medium: 0 10px 25px rgba(0, 191, 255, 0.1);
+}
+
+/* 
+============================================================
+PAST EVENTS SECTION - Plexiglass & Neon
+============================================================
+*/
+
+/* ========================================
+    FACE Website Stylesheet
+    Theme: Cyber Glow
+    ========================================
+*/
+
+/* Font Face Declarations */
+@font-face {
+    font-family: 'Pilot Command';
+    src: url('./fonts/pilotcommand1_2.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NeueMachina-Regular';
+    src: url('./fonts/NeueMachina-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NeueMachina-Ultrabold';
+    src: url('./fonts/NeueMachina-Ultrabold.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'denaregular';
+    src: url('./fonts/denaregular-8omnj.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 1. Root Variables and Base Styles */
+:root {
+    --brand-primary: #00BFFF; /* DeepSkyBlue */
+    --brand-secondary: #7DF9FF; /* Electric Blue */
+    --dark-bg: #0a0a1a;
+    --dark-card: #1a1a2e;
+    --dark-text: #E0E0E0;
+    --text-muted: #a0a0b0;
+    --border-color: rgba(0, 191, 255, 0.2);
+
+    --font-sans: 'NeueMachina-Regular', sans-serif;
+    --font-mono: 'NeueMachina-Ultrabold', sans-serif;
+
+    --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --shadow-medium: 0 10px 25px rgba(0, 191, 255, 0.1);
+}
+
+/* 
+============================================================
+PAST EVENTS SECTION - Sleek Circuit Theme
+============================================================
+*/
+
+/* ========================================
+    FACE Website Stylesheet
+    Theme: Cyber Glow
+    ========================================
+*/
+
+/* Font Face Declarations */
+@font-face {
+    font-family: 'Pilot Command';
+    src: url('./fonts/pilotcommand1_2.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NeueMachina-Regular';
+    src: url('./fonts/NeueMachina-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NeueMachina-Ultrabold';
+    src: url('./fonts/NeueMachina-Ultrabold.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'denaregular';
+    src: url('./fonts/denaregular-8omnj.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 1. Root Variables and Base Styles */
+:root {
+    --brand-primary: #00BFFF; /* DeepSkyBlue */
+    --brand-secondary: #7DF9FF; /* Electric Blue */
+    --dark-bg: #0a0a1a;
+    --dark-card: #1a1a2e;
+    --dark-text: #E0E0E0;
+    --text-muted: #a0a0b0;
+    --border-color: rgba(0, 191, 255, 0.2);
+
+    --font-sans: 'NeueMachina-Regular', sans-serif;
+    --font-mono: 'NeueMachina-Ultrabold', sans-serif;
+
+    --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --shadow-medium: 0 10px 25px rgba(0, 191, 255, 0.1);
+}
+
+/* 
+============================================================
+PAST EVENTS SECTION - Sleek Circuit Theme (Compact)
+============================================================
+*/
+
+/* ========================================
+    FACE Website Stylesheet
+    Theme: Cyber Glow
+    ========================================
+*/
+
+/* Font Face Declarations */
+@font-face {
+    font-family: 'Pilot Command';
+    src: url('./fonts/pilotcommand1_2.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NeueMachina-Regular';
+    src: url('./fonts/NeueMachina-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NeueMachina-Ultrabold';
+    src: url('./fonts/NeueMachina-Ultrabold.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'denaregular';
+    src: url('./fonts/denaregular-8omnj.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 1. Root Variables and Base Styles */
+:root {
+    --brand-primary: #00BFFF; /* DeepSkyBlue */
+    --brand-secondary: #7DF9FF; /* Electric Blue */
+    --dark-bg: #0a0a1a;
+    --dark-card: #1a1a2e;
+    --dark-text: #E0E0E0;
+    --text-muted: #a0a0b0;
+    --border-color: rgba(0, 191, 255, 0.2);
+
+    --font-sans: 'NeueMachina-Regular', sans-serif;
+    --font-mono: 'NeueMachina-Ultrabold', sans-serif;
+
+    --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --shadow-medium: 0 10px 25px rgba(0, 191, 255, 0.1);
+}
+
+/* 
+============================================================
+PAST EVENTS SECTION - Sleek Circuit Theme (Compact)
+============================================================
+*/
+/* PAST EVENTS CARDS */
+.past-event-card {
+    position: relative;
+    background-color: var(--dark-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 400px;      /* Fixed width */
+    height: 550px;     /* Fixed height */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    z-index: 1;
+}
+
+/* Hover effect */
+.past-event-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 191, 255, 0.15);
+    border-color: var(--brand-primary);
+}
+
+/* Optional: highlight special event like Python IoT */
+.past-event-card.highlight-event {
+    border: 2px solid #00ff99;
+    box-shadow: 0 0 15px rgba(0, 255, 153, 0.6);
+}
+
+.past-event-card.highlight-event:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 25px rgba(0, 255, 153, 0.9), 0 0 40px rgba(0, 255, 153, 0.5);
+    border-color: #00ffaa;
+}
+
+/* IMAGE */
+/* IMAGE */
+.past-event-card .past-event-image {
+    width: 100%;
+    height: 50%; /* Half of card height */
+    object-fit: contain; /* ensures full image is visible */
+    object-position: center;
+    background-color: #0a0a1a; /* fallback background */
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.past-event-card:hover .past-event-image {
+    transform: scale(1.05); /* subtle zoom on hover */
+    filter: brightness(1.1);
+}
+
+
+/* INFO SECTION */
+.past-event-info {
+    padding: 0.8rem 1rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+/* TITLE */
+.past-event-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+/* DATE */
+.past-event-date {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+/* DESCRIPTION (truncate by default) */
+.past-event-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+    flex-grow: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* show 4 lines only */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: -webkit-line-clamp 0.3s ease;
+}
+
+/* Show full description on hover */
+.past-event-card:hover .past-event-desc {
+    -webkit-line-clamp: unset;
+}
+
+/* TAGS */
+.past-event-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.8rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.past-event-tag {
+    background: rgba(0, 191, 255, 0.1);
+    color: var(--brand-secondary);
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 600;
+    transition: background-color 0.3s, color 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.past-event-tag:hover {
+    background: var(--brand-primary);
+    color: var(--dark-bg);
+    cursor: default;
+}
