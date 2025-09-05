@@ -1245,11 +1245,12 @@ PAST EVENTS SECTION - Sleek Circuit Theme (Compact)
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    font-family: 'NeuveMachina-Regular', sans-serif;
 }
 
 /* TITLE */
 .past-event-title {
-    font-family: 'Inter', sans-serif;
+    font-family: 'NeueMachina-Ultrabold', sans-serif;
     font-weight: 700;
     font-size: 1rem;
     color: #fff;
@@ -1262,7 +1263,7 @@ PAST EVENTS SECTION - Sleek Circuit Theme (Compact)
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-family: 'Roboto Mono', monospace;
+    font-family: 'NeueMachina-Regular', sans-serif;
     font-size: 0.7rem;
     color: var(--text-muted);
     margin-bottom: 0.5rem;
@@ -1270,7 +1271,7 @@ PAST EVENTS SECTION - Sleek Circuit Theme (Compact)
 
 /* DESCRIPTION (truncate by default) */
 .past-event-desc {
-    font-family: 'Inter', sans-serif;
+    font-family: 'NeueMachina-Regular', sans-serif;
     font-size: 0.85rem;
     color: var(--text-muted);
     line-height: 1.4;
@@ -1303,7 +1304,7 @@ PAST EVENTS SECTION - Sleek Circuit Theme (Compact)
     color: var(--brand-secondary);
     padding: 3px 8px;
     border-radius: 6px;
-    font-family: 'Roboto Mono', monospace;
+    font-family: 'NeueMachina-Ultrabold', sans-serif;
     font-size: 0.65rem;
     font-weight: 600;
     transition: background-color 0.3s, color 0.3s;
