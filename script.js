@@ -49,10 +49,12 @@ function runDigitalRainAnimation(canvas) {
     };
 
     const draw = () => {
-        ctx.fillStyle = 'rgba(10, 10, 26, 0.05)';
+        // Keep background fade subtle
+        ctx.fillStyle = 'rgba(10, 10, 26, 0.1)'; 
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
-        ctx.fillStyle = 'rgba(40, 80, 160, 0.7)'; // Themed color
+        // Brighter characters, no semi-transparency
+        ctx.fillStyle = 'rgb(80, 200, 255)';
         ctx.font = `${fontSize}px 'Roboto Mono', monospace`;
 
         for (let i = 0; i < drops.length; i++) {
