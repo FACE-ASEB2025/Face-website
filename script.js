@@ -1,5 +1,16 @@
 // Modern JavaScript for FACE Website
 document.addEventListener('DOMContentLoaded', function() {
+    // Handle loading screen
+    const loadingScreen = document.getElementById('loading-screen');
+    if (loadingScreen) {
+        setTimeout(() => {
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 500);
+        }, 2000);
+    }
+
     // Initialize common functionality
     initializeMobileMenu();
     initializeNavbarScroll();
