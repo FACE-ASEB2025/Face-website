@@ -1,0 +1,142 @@
+---
+/**
+ * Intro overlay.
+ *
+ * The old implementation sat on a hard 2000ms setTimeout on every single page
+ * view, which is a two-second tax for no information. This one:
+ *   - only ever appears on a first visit within a session
+ *   - clears the moment the page is ready, capped at 600ms regardless
+ *   - is skipped entirely under prefers-reduced-motion
+ *   - is added *by* script, so if JS fails there is no overlay to get stuck
+ *
+ * The decision runs inline before the rest of the body parses, so there is no
+ * flash of content underneath it.
+ */
+---
+
+<script is:inline>
+  (() => {
+    try {
+      const skip =
+        sessionStorage.getItem('face:seen-intro') === '1' ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (skip) return;
+      sessionStorage.setItem('face:seen-intro', '1');
+      document.documentElement.setAttribute('data-loading', '');
+    } catch {
+      /* Private mode can throw on sessionStorage — just skip the intro. */
+    }
+  })();
+</script>
+
+<div class="loader" data-loader aria-hidden="true">
+  <p class="loader__mark">FACE</p>
+</div>
+
+<style is:global>
+  .loader {
+    display: none;
+  }
+
+  /* Only rendered when the inline script above opted in. */
+  :root[data-loading] .loader {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-loader);
+    display: grid;
+    place-items: center;
+    background-color: var(--bg);
+    transition: opacity 250ms ease;
+  }
+
+  .loader__mark {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(44px, 9vw, 72px);
+    letter-spacing: 0.02em;
+    color: var(--fg);
+  }
+
+  :root[data-loading] .loader__mark {
+    animation: loader-in 400ms ease both;
+  }
+
+  /* Hard stop: if the load event never fires, the overlay still clears itself.
+     A CSS animation can't be prevented by a JS error. */
+  :root[data-loading] .loader {
+    animation: loader-failsafe 0ms linear 2500ms forwards;
+  }
+
+  :root[data-loading] .loader.is-done {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  @keyframes loader-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes loader-failsafe {
+    to {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+
+  /* Belt and braces — the overlay is never shown under reduced motion anyway,
+     but if the attribute somehow persists, don't animate. */
+  @media (prefers-reduced-motion: reduce) {
+    :root[data-loading] .loader {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const loader = document.querySelector<HTMLElement>('[data-loader]');
+
+  if (loader && document.documentElement.hasAttribute('data-loading')) {
+    // Minimum on-screen time so the intro reads as intentional rather than a
+    // flicker, but never more than the cap.
+    const MIN_MS = 300;
+    const MAX_MS = 600;
+    const start = performance.now();
+    let dismissed = false;
+
+    const dismiss = () => {
+      if (dismissed) return;
+      dismissed = true;
+      loader.classList.add('is-done');
+      loader.addEventListener(
+        'transitionend',
+        () => {
+          document.documentElement.removeAttribute('data-loading');
+          loader.remove();
+        },
+        { once: true },
+      );
+    };
+
+    const scheduleDismiss = () => {
+      const elapsed = performance.now() - start;
+      setTimeout(dismiss, Math.max(0, MIN_MS - elapsed));
+    };
+
+    if (document.readyState === 'complete') {
+      scheduleDismiss();
+    } else {
+      window.addEventListener('load', scheduleDismiss, { once: true });
+    }
+
+    // Cap it regardless of how slow the page turns out to be.
+    setTimeout(dismiss, MAX_MS);
+  }
+</script>

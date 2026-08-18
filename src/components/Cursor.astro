@@ -1,0 +1,188 @@
+---
+/**
+ * Dot-and-ring cursor.
+ *
+ * The dot tracks the pointer exactly; the ring trails it with a spring-ish
+ * lerp and swells over anything interactive. Deliberately conservative:
+ *
+ *   - only on devices with a fine pointer (never on touch, where there is no
+ *     cursor to replace and the elements would just float)
+ *   - skipped entirely under prefers-reduced-motion
+ *   - the native cursor is only hidden once the script has confirmed both of
+ *     the above, so a JS failure can never leave someone with no pointer
+ *   - purely decorative: aria-hidden, and it never handles a click
+ */
+---
+
+<div class="cursor" data-cursor aria-hidden="true" transition:persist>
+  <div class="cursor__ring" data-cursor-ring></div>
+  <div class="cursor__dot" data-cursor-dot></div>
+</div>
+
+<style is:global>
+  .cursor {
+    display: none;
+  }
+
+  /* `data-cursor-on` is set by the script, never by the server. */
+  :root[data-cursor-on] .cursor {
+    display: block;
+  }
+
+  :root[data-cursor-on],
+  :root[data-cursor-on] a,
+  :root[data-cursor-on] button,
+  :root[data-cursor-on] [role='button'] {
+    cursor: none;
+  }
+
+  .cursor__dot,
+  .cursor__ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: var(--z-cursor);
+    pointer-events: none;
+    border-radius: 50%;
+    /* Starts off-screen so it never flashes at 0,0 before the first move. */
+    transform: translate3d(-100px, -100px, 0);
+    will-change: transform;
+  }
+
+  .cursor__dot {
+    width: 6px;
+    height: 6px;
+    margin: -3px 0 0 -3px;
+    background: var(--accent);
+  }
+
+  .cursor__ring {
+    width: 34px;
+    height: 34px;
+    margin: -17px 0 0 -17px;
+    border: 1px solid color-mix(in oklab, var(--accent) 55%, transparent);
+    transition:
+      width 220ms ease,
+      height 220ms ease,
+      margin 220ms ease,
+      background-color 220ms ease,
+      border-color 220ms ease,
+      opacity 220ms ease;
+  }
+
+  /* Over something interactive the ring swells and fills faintly. */
+  :root[data-cursor-hot] .cursor__ring {
+    width: 54px;
+    height: 54px;
+    margin: -27px 0 0 -27px;
+    background: color-mix(in oklab, var(--accent) 12%, transparent);
+    border-color: var(--accent);
+  }
+
+  /* Over text the ring shrinks to a quiet caret companion. */
+  :root[data-cursor-text] .cursor__ring {
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    opacity: 0.5;
+  }
+
+  :root[data-cursor-down] .cursor__ring {
+    width: 26px;
+    height: 26px;
+    margin: -13px 0 0 -13px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cursor {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  // Guarded so a client-side navigation doesn't start a second animation loop
+  // against the same persisted element.
+  if (!document.documentElement.hasAttribute('data-cursor-ready')) {
+    document.documentElement.setAttribute('data-cursor-ready', '');
+
+    const fine = window.matchMedia('(pointer: fine)');
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    const start = () => {
+      const dot = document.querySelector<HTMLElement>('[data-cursor-dot]');
+      const ring = document.querySelector<HTMLElement>('[data-cursor-ring]');
+      if (!dot || !ring) return;
+
+      // The backdrop spotlight is driven from this same loop rather than its
+      // own listener, so there is only ever one pointer handler on the page.
+      const spot = document.querySelector<HTMLElement>('[data-spot]');
+
+      const root = document.documentElement;
+
+      let pointerX = -100;
+      let pointerY = -100;
+      let ringX = -100;
+      let ringY = -100;
+      let frame = 0;
+
+      const draw = () => {
+        // Lerp: the ring closes ~18% of the remaining gap each frame, which
+        // reads as weight without ever feeling laggy.
+        ringX += (pointerX - ringX) * 0.18;
+        ringY += (pointerY - ringY) * 0.18;
+        ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
+        dot.style.transform = `translate3d(${pointerX}px, ${pointerY}px, 0)`;
+        // Lags further behind than the ring: a light source that heavy should
+        // feel like it is being dragged, not carried.
+        if (spot) spot.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
+        frame = requestAnimationFrame(draw);
+      };
+
+      frame = requestAnimationFrame(draw);
+
+      document.addEventListener(
+        'pointermove',
+        (event) => {
+          if (event.pointerType !== 'mouse') return;
+
+          // The native cursor is only hidden once we are demonstrably drawing
+          // a replacement: if anything above this line had thrown, the user
+          // would still have an ordinary pointer.
+          if (!root.hasAttribute('data-cursor-on')) root.setAttribute('data-cursor-on', '');
+
+          pointerX = event.clientX;
+          pointerY = event.clientY;
+
+          const target = event.target as Element | null;
+          const hot = target?.closest('a, button, [role="button"], summary, label');
+          const text = !hot && target?.closest('p, h1, h2, h3, li, dd, figcaption');
+
+          root.toggleAttribute('data-cursor-hot', Boolean(hot));
+          root.toggleAttribute('data-cursor-text', Boolean(text));
+        },
+        { passive: true },
+      );
+
+      document.addEventListener('pointerdown', () => root.toggleAttribute('data-cursor-down', true));
+      document.addEventListener('pointerup', () => root.toggleAttribute('data-cursor-down', false));
+
+      // Leaving the window shouldn't strand the ring at the last edge pixel.
+      document.addEventListener('mouseleave', () => {
+        pointerX = -100;
+        pointerY = -100;
+      });
+
+      // Give the frame loop back when the tab is hidden.
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          cancelAnimationFrame(frame);
+        } else {
+          frame = requestAnimationFrame(draw);
+        }
+      });
+    };
+
+    if (fine.matches && !still.matches) start();
+  }
+</script>

@@ -1,0 +1,393 @@
+---
+import { Image } from 'astro:assets';
+
+import Base from '../layouts/Base.astro';
+import MetaRow from '../components/MetaRow.astro';
+import EventCard from '../components/EventCard.astro';
+import Icon from '../components/Icon.astro';
+import { upcomingEvents, pastEvents } from '../data/events';
+import { memberCount, divisions, officeBearers } from '../data/team';
+import { site } from '../data/site';
+
+const next = upcomingEvents()[0];
+const previous = pastEvents()[0];
+
+const programme = [
+  {
+    title: 'Workshops',
+    body: 'Python fundamentals, then you wire up a working IoT radar. The session is over when the thing runs, not when the slides end.',
+  },
+  {
+    title: 'Tech talks',
+    body: 'Two hours with someone already doing the work — a clinician, an engineer, a founder — in a room full of students about to start.',
+  },
+  {
+    title: 'Build nights',
+    body: 'Four divisions in one room, working on whatever is due next. Bring a laptop and a problem; leave with a first commit.',
+  },
+];
+
+// A strip of faces at the foot of the page — office bearers first, then a
+// couple from each division, so the row reads as the whole club rather than
+// one team. Twelve fills the row on a wide screen without wrapping oddly.
+const faces = [...officeBearers, ...divisions.flatMap((d) => d.members.slice(0, 2))].slice(0, 12);
+
+// Three numbers, straight off the roster where possible. A masthead strip
+// like this is the cheapest way to make the top of the page feel inhabited.
+const figures = [
+  { value: String(memberCount), label: 'Members' },
+  { value: String(divisions.length), label: 'Divisions' },
+  { value: '2025', label: 'Since' },
+];
+---
+
+<!-- "Q29uZ3JhdHMgQk9C" -Bob's Collegue ( Base64 ) -->
+<Base>
+  <section class="section hero">
+    <p class="eyebrow hero__eyebrow">Amrita Vishwa Vidyapeetham · Bengaluru</p>
+    <h1 class="hero__title">Innovate. Iterate. Integrate.</h1>
+    <p class="lead hero__lead">
+      FACE is the student tech community at Amrita Bengaluru. We run workshops, tech talks and
+      build nights, and everything we make, we make together.
+    </p>
+
+    <a class="hero__cue" href="#programme">
+      <span>What we run</span>
+      <Icon name="arrow-down" size="16px" />
+    </a>
+  </section>
+
+  <section class="section--rule figures">
+    <dl class="figures__list">
+      {
+        figures.map((figure) => (
+          <div class="figures__item" data-reveal>
+            <dt class="figures__label">{figure.label}</dt>
+            <dd class="figures__value">{figure.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  {
+    next && (
+      <section class="section section--rule split">
+        <div class="split__label">
+          <p class="eyebrow">Next event</p>
+        </div>
+
+        <div class="split__body split__body--wide">
+          <EventCard event={next} upcoming data-reveal>
+            <a slot="secondary" class="btn-quiet" href="/events">
+              All events
+            </a>
+          </EventCard>
+        </div>
+      </section>
+    )
+  }
+
+  <section id="programme" class="section section--rule">
+    <p class="eyebrow block-label">What we run</p>
+
+    <div class="rows rows--roomy">
+      {
+        programme.map((item, i) => (
+          <MetaRow meta={String(i + 1).padStart(2, '0')} title={item.title} data-reveal>
+            {item.body}
+          </MetaRow>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section section--rule">
+    <div class="section-head">
+      <p class="eyebrow">Divisions</p>
+      <a class="btn-quiet" href="/team">All {memberCount} members</a>
+    </div>
+
+    <div class="rows">
+      {
+        divisions.map((division) => (
+          <MetaRow
+            meta={`${division.members.length} members`}
+            title={division.name}
+            href={`/team#${division.slug}`}
+            compact
+            data-reveal
+          >
+            {division.blurb}
+          </MetaRow>
+        ))
+      }
+    </div>
+  </section>
+
+  {
+    previous && (
+      <section class="section section--rule split">
+        <div class="split__label">
+          <p class="eyebrow">Last we ran</p>
+        </div>
+
+        <div class="split__body split__body--wide">
+          <EventCard event={previous} data-reveal />
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section section--rule faces">
+    <a class="faces__link" href="/team" aria-label={`Meet all ${memberCount} members`}>
+      <ul class="faces__row" aria-hidden="true">
+        {
+          faces.map((member) => (
+            <li>
+              <Image
+                src={member.photo}
+                width={160}
+                height={200}
+                densities={[1, 2]}
+                alt=""
+                loading="lazy"
+                class="faces__photo"
+              />
+            </li>
+          ))
+        }
+      </ul>
+
+      <p class="faces__caption" data-reveal>
+        <span>Meet all {memberCount} members</span>
+        <Icon name="arrow-right" size="18px" />
+      </p>
+    </a>
+  </section>
+
+  <section class="section section--rule cta">
+    <h2 class="cta__title">Come build something</h2>
+    <p class="cta__body">
+      Open to every student at Amrita Bengaluru, whatever year and whatever you already know.
+      Say hello and we will point you at the nearest project.
+    </p>
+    <p class="cta__email"><a href={`mailto:${site.email}`}>{site.email}</a></p>
+  </section>
+</Base>
+
+<style>
+  /* --- Hero --- */
+
+  .hero {
+    padding-block: clamp(64px, 11vw, 140px) clamp(56px, 7vw, 96px);
+  }
+
+  .hero__eyebrow {
+    display: block;
+    margin-bottom: clamp(28px, 4vw, 44px);
+  }
+
+  .hero__title {
+    max-width: 14ch;
+    font-size: var(--step-hero);
+    line-height: 0.94;
+    letter-spacing: -0.042em;
+  }
+
+  .hero__lead {
+    margin-top: clamp(28px, 4vw, 40px);
+    max-width: 52ch;
+  }
+
+  /* Quiet "there is more below this" marker. The arrow drifts down and back
+     on a long, slow loop — enough to read as an invitation, not a demand. */
+  .hero__cue {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 28px;
+    min-height: 44px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--grey);
+    text-decoration: none;
+  }
+
+  .hero__cue:hover {
+    color: var(--fg);
+  }
+
+  .hero__cue :global(svg) {
+    animation: cue 2.6s var(--ease-out) infinite;
+  }
+
+  @keyframes cue {
+    0%,
+    55%,
+    100% {
+      transform: translateY(0);
+    }
+    75% {
+      transform: translateY(5px);
+    }
+  }
+
+  /* --- Masthead figures --- */
+
+  /* Three even columns at every width. Flexing them would drop the third
+     figure onto its own row on a phone, which reads as a mistake. */
+  .figures__list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .figures__item {
+    padding: clamp(24px, 3vw, 34px) 0 clamp(24px, 3vw, 34px) clamp(14px, 2.5vw, 32px);
+    border-left: 1px solid var(--rule-soft);
+  }
+
+  /* The first figure sits flush to the measure; the rules divide, they don't
+     enclose. */
+  .figures__item:first-child {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .figures__label {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+
+  .figures__value {
+    margin-top: 10px;
+    font-size: clamp(1.875rem, 5vw, 3.75rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    /* Tabular figures so the numbers line up if the roster changes length. */
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* --- Label / body split, used by the two event sections --- */
+
+  .split {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(20px, 3vw, 48px);
+  }
+
+  .split__label {
+    flex: 0 0 auto;
+    width: var(--meta-column);
+    max-width: 100%;
+  }
+
+  .split__body {
+    flex: 1 1 min(100%, 540px);
+    max-width: 62ch;
+  }
+
+  /* An event block carries a poster beside its copy, so it needs the rest of
+     the measure rather than a reading column. */
+  .split__body--wide {
+    max-width: none;
+  }
+
+  .block-label {
+    display: block;
+    margin-bottom: clamp(28px, 4vw, 44px);
+  }
+
+  /* --- Faces strip --- */
+
+  .faces__link {
+    display: block;
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .faces__row {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: clamp(6px, 0.8vw, 12px);
+  }
+
+  .faces__photo {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center top;
+    background-color: var(--photo-bg);
+    filter: grayscale(1) contrast(1.06);
+    opacity: 0.85;
+    transition:
+      filter var(--dur) var(--ease-out),
+      opacity var(--dur) var(--ease-out);
+  }
+
+  .faces__link:hover .faces__photo,
+  .faces__link:focus-visible .faces__photo {
+    filter: none;
+    opacity: 1;
+  }
+
+  .faces__caption {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    font-size: 17px;
+    font-weight: 500;
+  }
+
+  .faces__link:hover .faces__caption :global(svg) {
+    transform: translateX(4px);
+  }
+
+  .faces__caption :global(svg) {
+    color: var(--accent);
+    transition: transform var(--dur) var(--ease-out);
+  }
+
+  /* Twelve portraits is a hairline each on a phone. Show six, then three. */
+  @media (max-width: 60rem) {
+    .faces__row > li:nth-child(n + 7) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .faces__row > li:nth-child(n + 4) {
+      display: none;
+    }
+  }
+
+  /* --- Closing --- */
+
+  .cta {
+    padding-block: clamp(56px, 8vw, 104px) clamp(56px, 8vw, 96px);
+  }
+
+  .cta__title {
+    max-width: 22ch;
+    font-size: clamp(2rem, 4.6vw, 3.625rem);
+    letter-spacing: -0.038em;
+  }
+
+  .cta__body {
+    margin-top: 24px;
+    max-width: 50ch;
+    font-size: 19px;
+    line-height: 1.55;
+  }
+
+  .cta__email {
+    margin-top: 28px;
+    font-size: 17px;
+  }
+</style>

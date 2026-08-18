@@ -1,0 +1,227 @@
+---
+/**
+ * The one layout. Every page renders through here, so nav, footer, metadata
+ * and fonts are defined exactly once — the old site repeated all of it across
+ * seven files and they had already drifted apart.
+ *
+ * Fonts are self-hosted rather than pulled from the Google Fonts CDN: no
+ * third-party connection on first paint, and no layout shift when it is slow.
+ * Instrument Sans ships as a variable font, so one file covers 400–700.
+ */
+
+import '@fontsource-variable/instrument-sans/wght.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '../styles/global.css';
+
+import { ClientRouter } from 'astro:transitions';
+
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import LoadingScreen from '../components/LoadingScreen.astro';
+import Cursor from '../components/Cursor.astro';
+import Backdrop from '../components/Backdrop.astro';
+import { site } from '../data/site';
+
+interface Props {
+  /** Page title, shown before the site name. Omit on the home page. */
+  title?: string;
+  description?: string;
+  /** Set false on pages that shouldn't be indexed. */
+  index?: boolean;
+}
+
+const { title, description = site.description, index = true } = Astro.props;
+
+const pageTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.tagline}`;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL('/og-image.png', Astro.site).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {!index && <meta name="robots" content="noindex" />}
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#ebebfa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#050514" media="(prefers-color-scheme: dark)" />
+
+    <!-- Open Graph / Twitter: makes shared links render a card instead of a
+         bare URL on WhatsApp, Instagram, LinkedIn and Slack. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.longName} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="FACE — Amrita Bengaluru" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="sitemap" href="/sitemap.xml" />
+
+    <!-- Cross-document view transitions: routes crossfade instead of blinking
+         white, and the header/cursor survive the swap. Falls back to ordinary
+         navigation where the browser doesn't support it. -->
+    <ClientRouter />
+
+    <!-- Per-page extras (structured data, redirects, and so on). -->
+    <slot name="head" />
+
+    <script is:inline>
+      // Marks JS as available so scroll-reveal can start elements hidden. If
+      // this never runs, content is visible by default rather than blank.
+      document.documentElement.classList.add('js');
+    </script>
+  </head>
+
+  <body>
+    <Backdrop transition:persist />
+    <LoadingScreen />
+    <Cursor />
+
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <Nav />
+
+    <!-- The site's single measure. Every page's sections are direct children,
+         so their hairline rules line up down the whole page. -->
+    <main id="main" class="wrap" tabindex="-1">
+      <slot />
+    </main>
+
+    <Footer />
+
+    <style>
+      main:focus {
+        outline: none;
+      }
+    </style>
+
+    <script>
+      // One scroll engine for the page: reveal-on-enter, a read-position bar,
+      // and a small parallax drift. Re-armed on every client-side navigation.
+      function initScroll() {
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        /* --- Reveal ------------------------------------------------------ */
+
+        const targets = document.querySelectorAll<HTMLElement>(
+          '[data-reveal]:not(.is-visible)',
+        );
+
+        if (targets.length > 0 && 'IntersectionObserver' in window) {
+          let revealed = 0;
+
+          const observer = new IntersectionObserver(
+            (entries) => {
+              // Sorting by position means a group that scrolls into view all
+              // at once still staggers top-to-bottom rather than in whatever
+              // order the observer happened to report.
+              const arriving = entries
+                .filter((entry) => entry.isIntersecting)
+                .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+              arriving.forEach((entry, i) => {
+                const el = entry.target as HTMLElement;
+                // Capped so a 29-photo grid never queues up a long wait for
+                // the last face.
+                el.style.setProperty('--reveal-delay', `${Math.min(i * 45, 320)}ms`);
+                el.classList.add('is-visible');
+                observer.unobserve(el);
+                revealed++;
+              });
+            },
+            { threshold: 0.08, rootMargin: '0px 0px -40px 0px' },
+          );
+
+          for (const target of targets) observer.observe(target);
+
+          // Failsafe. These elements start at opacity 0, so anything that stops
+          // the observer delivering would leave the page blank. If something is
+          // demonstrably on screen and the observer still hasn't reported it,
+          // drop the effect entirely — dropping `js` makes the hiding rule stop
+          // matching, so all content becomes visible.
+          //
+          // Skipped while the tab is hidden: rendering (and therefore the
+          // observer) is legitimately suspended there and resumes on view.
+          setTimeout(() => {
+            if (revealed > 0 || document.visibilityState !== 'visible') return;
+
+            const somethingOnScreen = Array.from(targets).some((el) => {
+              const box = el.getBoundingClientRect();
+              return box.height > 0 && box.top < window.innerHeight && box.bottom > 0;
+            });
+
+            if (somethingOnScreen) document.documentElement.classList.remove('js');
+          }, 1500);
+        } else {
+          for (const target of targets) target.classList.add('is-visible');
+        }
+
+        /* --- Read position + parallax ------------------------------------ */
+
+        let ticking = false;
+
+        const onFrame = () => {
+          ticking = false;
+
+          // Re-queried each frame: after a client-side navigation these are
+          // different elements, and the listener below outlives the swap.
+          const drifters = reduced
+            ? []
+            : document.querySelectorAll<HTMLElement>('[data-parallax]');
+
+          // Read position goes to :root, where the scrollbar track's gradient
+          // picks it up. No element of our own to keep in sync.
+          const root = document.documentElement;
+          const scrollable = root.scrollHeight - window.innerHeight;
+          const ratio = scrollable > 0 ? window.scrollY / scrollable : 0;
+          root.style.setProperty('--progress', String(Math.min(1, Math.max(0, ratio))));
+
+          const viewport = window.innerHeight;
+
+          for (const el of drifters) {
+            const box = el.getBoundingClientRect();
+            if (box.bottom < 0 || box.top > viewport) continue;
+            // -1 at the bottom of the viewport, +1 at the top: the element
+            // rises ~14px slower than the page as it crosses the screen.
+            const progress = (viewport / 2 - (box.top + box.height / 2)) / viewport;
+            el.style.setProperty('--shift', `${(progress * 28).toFixed(2)}px`);
+          }
+        };
+
+        const onScroll = () => {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(onFrame);
+        };
+
+        onFrame();
+
+        if (document.documentElement.hasAttribute('data-scroll-wired')) return;
+        document.documentElement.setAttribute('data-scroll-wired', '');
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll, { passive: true });
+      }
+
+      initScroll();
+      // ClientRouter swaps the body without a full page load, so the engine is
+      // re-armed against the new DOM on every route change.
+      document.addEventListener('astro:page-load', initScroll);
+    </script>
+  </body>
+</html>

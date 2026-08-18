@@ -1,0 +1,137 @@
+---
+import Base from '../layouts/Base.astro';
+import MemberFigure from '../components/MemberFigure.astro';
+import { officeBearers, divisions, memberCount } from '../data/team';
+
+const sections = [
+  { label: 'Office bearers', slug: 'office-bearers' },
+  ...divisions.map((division) => ({ label: division.name, slug: division.slug })),
+];
+
+const description =
+  'The students running FACE at Amrita Vishwa Vidyapeetham, Bengaluru — office bearers and the web development, events, creative and sponsorship divisions.';
+---
+
+<Base title="Team" description={description}>
+  <section class="section section--head team-head">
+    <p class="eyebrow page-eyebrow">Team</p>
+    <h1 class="page-title team-title">The people behind FACE</h1>
+    <p class="lead team-lead">
+      {memberCount} students, {divisions.length} divisions, one shared to-do list. Office bearers
+      plan the term; the divisions run it.
+    </p>
+
+    <nav class="jump" aria-label="Sections">
+      {sections.map((section) => <a href={`#${section.slug}`}>{section.label}</a>)}
+    </nav>
+  </section>
+
+  <section id="office-bearers" class="section section--rule group">
+    <div class="section-head">
+      <h2 class="section-title">Office bearers</h2>
+      <span class="mono">{officeBearers.length}</span>
+    </div>
+
+    <ul class="people people--lg">
+      {
+        officeBearers.map((member) => (
+          <li>
+            <MemberFigure member={member} large data-reveal />
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  {
+    divisions.map((division, i) => (
+      <section
+        id={division.slug}
+        class:list={[
+          'section',
+          'section--rule',
+          'group',
+          i === divisions.length - 1 && 'section--tail',
+        ]}
+      >
+        <div class="section-head">
+          <h2 class="section-title">{division.name}</h2>
+          <span class="mono">{division.members.length}</span>
+        </div>
+
+        <ul class="people">
+          {division.members.map((member) => (
+            <li>
+              <MemberFigure member={member} data-reveal />
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</Base>
+
+<style>
+  .team-head {
+    padding-bottom: clamp(36px, 4vw, 56px);
+  }
+
+  .page-eyebrow {
+    display: block;
+    margin-bottom: clamp(24px, 3vw, 36px);
+  }
+
+  .team-title {
+    max-width: 16ch;
+    font-size: clamp(2.5rem, 6.6vw, 5.25rem);
+    line-height: 0.96;
+  }
+
+  .team-lead {
+    margin-top: clamp(24px, 3vw, 36px);
+    max-width: 50ch;
+  }
+
+  /* Section jump list. Slashes are drawn rather than marked up, so they are
+     never read out between the link labels. */
+  .jump {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: clamp(28px, 3.5vw, 44px);
+    margin-left: -8px;
+  }
+
+  .jump a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding-inline: 8px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--grey);
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+
+  .jump a:hover {
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .jump a:not(:last-child)::after {
+    content: '/';
+    margin-left: 8px;
+    color: var(--rule);
+  }
+
+  .group {
+    padding-block: clamp(36px, 4.5vw, 64px) clamp(44px, 5vw, 72px);
+  }
+
+  /* Scoped styles outrank the global .section--tail, so the last group
+     restates the taller run-out to the footer. */
+  .group.section--tail {
+    padding-bottom: clamp(56px, 7vw, 96px);
+  }
+</style>

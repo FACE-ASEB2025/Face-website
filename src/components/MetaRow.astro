@@ -1,0 +1,71 @@
+---
+/**
+ * A row with a mono label in the left column and a heading plus explanation
+ * in the right: "01 / Workshops", "7 members / Web Development".
+ *
+ * Below the wrap point the label stacks above the heading, which is why it is
+ * a plain flex row rather than a grid — the two columns are allowed to become
+ * one without a breakpoint.
+ */
+
+interface Props {
+  /** Left column: a number, a count, anything that reads as data. */
+  meta: string;
+  title: string;
+  /** Heading level, so each page keeps a sane outline. */
+  as?: 'h2' | 'h3';
+  /** Makes the whole row a link. */
+  href?: string;
+  /** Division rows: smaller heading, tighter body. */
+  compact?: boolean;
+  /** Anything else (data-reveal, id) lands on the row itself. */
+  [key: string]: unknown;
+}
+
+const { meta, title, as: Heading = 'h3', href, compact = false, ...rest } = Astro.props;
+
+const Tag = href ? 'a' : 'div';
+---
+
+<Tag class:list={['row', compact && 'row--compact']} href={href} {...rest}>
+  <div class="row__meta">
+    <span class="row__label">{meta}</span>
+  </div>
+
+  <div class="row__body">
+    <Heading class="row__heading">{title}</Heading>
+    <p class="row__text"><slot /></p>
+  </div>
+</Tag>
+
+<style>
+  .row__label {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--grey);
+  }
+
+  .row__heading {
+    font-size: var(--step-h3);
+    letter-spacing: -0.03em;
+  }
+
+  .row__text {
+    margin-top: 10px;
+    max-width: 52ch;
+    color: var(--grey);
+    font-size: 17px;
+    line-height: 1.6;
+  }
+
+  .row--compact .row__heading {
+    font-size: var(--step-h4);
+    font-weight: 600;
+  }
+
+  .row--compact .row__text {
+    margin-top: 6px;
+    max-width: 48ch;
+    font-size: 16px;
+  }
+</style>

@@ -1,0 +1,49 @@
+---
+/**
+ * Inline SVG icon.
+ *
+ * Inline rather than a sprite or an icon font: no extra request, and the glyph
+ * inherits `currentColor`, so it is correct in both themes for free. Paths and
+ * the name union live in ./icons.ts.
+ *
+ * Icons are decorative by default (aria-hidden) because they sit beside a text
+ * label everywhere on this site. Pass a `label` only when the icon is the sole
+ * content of a control and carries the meaning itself.
+ */
+
+import { iconPaths, type IconName } from './icons';
+
+interface Props {
+  name: IconName;
+  size?: number | string;
+  label?: string;
+  class?: string;
+}
+
+const { name, size = '1em', label, class: className } = Astro.props;
+---
+
+<svg
+  class={className}
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden={label ? undefined : 'true'}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  set:html={iconPaths[name]}
+/>
+
+<style>
+  svg {
+    display: inline-block;
+    flex-shrink: 0;
+    /* Keeps the glyph optically centred against the text it sits beside. */
+    vertical-align: -0.14em;
+  }
+</style>

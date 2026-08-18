@@ -1,0 +1,155 @@
+---
+/**
+ * One person: portrait, name, role, and their links if we have real ones.
+ *
+ * Portraits are held in greyscale so a wall of twenty-nine photos taken on
+ * different phones in different light reads as one set. Colour returns on
+ * hover, one face at a time.
+ */
+
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import type { Member } from '../data/team';
+
+interface Props {
+  member: Member;
+  /** Office bearers and the credits team get the larger crop. */
+  large?: boolean;
+  /** Anything else (data-reveal) lands on the figure itself. */
+  [key: string]: unknown;
+}
+
+const { member, large = false, ...rest } = Astro.props;
+const width = large ? 420 : 320;
+---
+
+<figure class:list={['person', large && 'person--lg']} {...rest}>
+  <Image
+    src={member.photo}
+    width={width}
+    height={Math.round((width * 5) / 4)}
+    densities={[1, 2]}
+    /* Photos are decorative next to the name that follows, but naming the
+       person is more useful than an empty alt for anyone browsing by image. */
+    alt={`${member.name}, ${member.role}`}
+    loading="lazy"
+    class="person__photo"
+  />
+
+  <figcaption class="person__caption">
+    <p class="person__name">{member.name}</p>
+    <p class="person__role">{member.role}</p>
+
+    {
+      (member.linkedin || member.github) && (
+        <span class="person__links">
+          {member.linkedin && (
+            <a href={member.linkedin} target="_blank" rel="noopener noreferrer">
+              <Icon name="linkedin" size="13px" />
+              LinkedIn
+              <span class="visually-hidden">— {member.name}</span>
+            </a>
+          )}
+          {member.github && (
+            <a href={member.github} target="_blank" rel="noopener noreferrer">
+              <Icon name="github" size="13px" />
+              GitHub
+              <span class="visually-hidden">— {member.name}</span>
+            </a>
+          )}
+        </span>
+      )
+    }
+  </figcaption>
+</figure>
+
+<style>
+  /* The greyscale sits on the photo, not the figure. Putting a transition on
+     the figure itself would override the scroll-reveal transition it also
+     carries (scoped styles outrank the global rule), and the portraits would
+     pop in rather than fade. */
+  .person__photo {
+    filter: grayscale(1) contrast(1.06);
+    transition: filter 240ms ease;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    /* Faces sit high in most of these photos; anchoring the crop to the top
+       stops heads getting cut off. */
+    object-position: center top;
+    background-color: var(--photo-bg);
+  }
+
+  .person:hover .person__photo,
+  /* Keyboard users reach the photo through its links, so colour returns on
+     focus too rather than only under a pointer. */
+  .person:focus-within .person__photo {
+    filter: none;
+  }
+
+  .person__caption {
+    margin-top: 12px;
+  }
+
+  .person__name {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+  }
+
+  .person__role {
+    margin-top: 3px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--grey);
+  }
+
+  .person__links {
+    display: flex;
+    gap: 12px;
+    margin-top: 2px;
+  }
+
+  .person__links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    /* 36px rather than 44px: these sit in a tight caption, and the row of two
+       still clears the target size horizontally. */
+    min-height: 36px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--grey);
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+
+  .person__links a:hover {
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .person--lg .person__caption {
+    margin-top: 14px;
+  }
+
+  .person--lg .person__name {
+    font-size: 17px;
+  }
+
+  .person--lg .person__role {
+    margin-top: 4px;
+    font-size: 12.5px;
+  }
+
+  .person--lg .person__links {
+    gap: 14px;
+  }
+
+  .person--lg .person__links a {
+    font-size: 11.5px;
+  }
+</style>

@@ -1,0 +1,92 @@
+---
+import Base from '../layouts/Base.astro';
+import MemberFigure from '../components/MemberFigure.astro';
+import LinkRow from '../components/LinkRow.astro';
+import { developers, stack } from '../data/credits';
+import { site } from '../data/site';
+
+const description =
+  'The people who built the FACE website, and the tools it is built with.';
+---
+
+<Base title="Credits" description={description}>
+  <section class="section section--head">
+    <p class="eyebrow page-eyebrow">Credits</p>
+    <h1 class="page-title">Who built this</h1>
+    <p class="lead page-lead">
+      This site is made and maintained by the web development division. The source is public —
+      corrections and additions are welcome.
+    </p>
+  </section>
+
+  <section class="section section--rule team">
+    <div class="section-head">
+      <h2 class="section-title">Development team</h2>
+      <span class="mono">{developers.length}</span>
+    </div>
+
+    <ul class="people people--md">
+      {
+        developers.map((developer) => (
+          <li>
+            <MemberFigure member={developer} large data-reveal />
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="section section--rule built">
+    <h2 class="section-title built__title">Built with</h2>
+
+    <div class="rows">
+      {
+        stack.map((item) => (
+          <LinkRow title={item.name} href={item.href} external data-reveal>
+            {item.detail}
+          </LinkRow>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section section--rule section--tail">
+    <p class="eyebrow">Photography</p>
+    <p class="photography">
+      Team portraits were taken by the creative division on campus. Event posters are theirs
+      too. Found a mistake or want your photo replaced?{' '}
+      <a href={`mailto:${site.email}`}>Email us</a>.
+    </p>
+  </section>
+</Base>
+
+<style>
+  .page-eyebrow {
+    display: block;
+    margin-bottom: clamp(24px, 3vw, 36px);
+  }
+
+  .page-lead {
+    margin-top: clamp(24px, 3vw, 36px);
+  }
+
+  .team {
+    padding-bottom: clamp(48px, 6vw, 76px);
+  }
+
+  /* The rows carry their own top padding, so the section stops short. */
+  .built {
+    padding-bottom: clamp(20px, 3vw, 32px);
+  }
+
+  .built__title {
+    margin-bottom: clamp(28px, 3.5vw, 44px);
+  }
+
+  .photography {
+    margin-top: 20px;
+    max-width: 52ch;
+    font-size: 19px;
+    line-height: 1.6;
+  }
+</style>

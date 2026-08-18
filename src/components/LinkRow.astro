@@ -1,0 +1,96 @@
+---
+/**
+ * A row that is entirely a link: name (and optional handle) on the left, what
+ * it is for on the right, and a glyph showing where it goes — ↗ leaves the
+ * site, → stays or opens a mail client.
+ */
+
+import Icon from './Icon.astro';
+import type { IconName } from './icons';
+
+interface Props {
+  title: string;
+  /** Optional mark beside the title — the channel's own logo, usually. */
+  icon?: IconName;
+  href: string;
+  /** Shown under the title in mono: an address, a handle, an account name. */
+  handle?: string;
+  external?: boolean;
+  /** Anything else (data-reveal, id) lands on the row itself. */
+  [key: string]: unknown;
+}
+
+const { title, href, handle, icon, external = false, ...rest } = Astro.props;
+---
+
+<a
+  class="row"
+  href={href}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener noreferrer' : undefined}
+  {...rest}
+>
+  <div class="row__meta">
+    <span class="row__title">
+      {icon && <Icon name={icon} size="18px" class="row__icon" />}
+      {title}
+    </span>
+    {handle && <span class="row__handle">{handle}</span>}
+  </div>
+
+  <div class="row__detail">
+    <p class="row__text"><slot /></p>
+    <Icon
+      name={external ? 'arrow-up-right' : 'arrow-right'}
+      size="18px"
+      class="row__arrow"
+    />
+  </div>
+</a>
+
+<style>
+  .row__title {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .row__icon {
+    color: var(--accent);
+  }
+
+  .row__arrow {
+    flex-shrink: 0;
+    color: var(--grey);
+    transition: transform var(--dur) var(--ease-out), color var(--dur) var(--ease-out);
+  }
+
+  .row:hover .row__arrow {
+    color: var(--accent);
+    transform: translate(3px, -3px);
+  }
+
+  .row__handle {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--grey);
+    /* A long email address shouldn't push the column wider than its share. */
+    overflow-wrap: anywhere;
+  }
+
+  .row__detail {
+    display: flex;
+    flex: 1 1 min(100%, 460px);
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .row__text {
+    max-width: 48ch;
+    color: var(--grey);
+    font-size: 16px;
+  }
+</style>

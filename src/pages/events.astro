@@ -1,0 +1,153 @@
+---
+import Base from '../layouts/Base.astro';
+import EventCard from '../components/EventCard.astro';
+import { upcomingEvents, pastEvents } from '../data/events';
+
+const upcoming = upcomingEvents();
+const past = pastEvents();
+
+const description =
+  'Workshops, tech talks and build nights run by FACE at Amrita Vishwa Vidyapeetham, Bengaluru.';
+---
+
+<Base title="Events" description={description}>
+  <section class="section section--head events-head">
+    <p class="eyebrow page-eyebrow">Events</p>
+    <h1 class="page-title events-title">Workshops, talks and build nights</h1>
+    <p class="lead page-lead">
+      Everything we have run and everything we have booked. Registration opens on Instagram
+      first, then here.
+    </p>
+  </section>
+
+  <section id="upcoming" class="section section--rule upcoming">
+    <div class="section-head">
+      <h2 class="section-title">Upcoming</h2>
+      <span class="mono">{upcoming.length}</span>
+    </div>
+
+    {
+      upcoming.length > 0 ? (
+        <ul class="event-list">
+          {upcoming.map((event) => (
+            <li>
+              <EventCard event={event} variant="feature" data-reveal />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        /* An honest empty state beats a stale "Register Now" for an event
+           that already happened. */
+        <div class="empty" data-reveal>
+          <h3 class="empty__title">Nothing scheduled right now</h3>
+          <p class="empty__body">
+            The next term's line-up is being planned. Instagram is where new events get
+            announced first.
+          </p>
+          <div class="actions empty__actions">
+            <a
+              class="btn"
+              href="https://www.instagram.com/face_aseb/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Follow on Instagram
+            </a>
+            <a class="btn-quiet" href="/contact">
+              Ask a question
+            </a>
+          </div>
+        </div>
+      )
+    }
+  </section>
+
+  <section id="past" class="section section--rule section--tail">
+    <div class="section-head">
+      <h2 class="section-title">Past</h2>
+      <span class="mono">{past.length}</span>
+    </div>
+
+    <ul class="past-list">
+      {
+        past.map((event) => (
+          <li>
+            <EventCard event={event} data-reveal />
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="past-note">
+      Older sessions ran before we kept records here. Photos from those are on{' '}
+      <a href="https://www.instagram.com/face_aseb/" target="_blank" rel="noopener noreferrer">
+        Instagram
+      </a>.
+    </p>
+  </section>
+</Base>
+
+<style>
+  .events-head {
+    padding-bottom: clamp(36px, 4vw, 56px);
+  }
+
+  .page-eyebrow {
+    display: block;
+    margin-bottom: clamp(24px, 3vw, 36px);
+  }
+
+  .events-title {
+    max-width: 16ch;
+  }
+
+  .page-lead {
+    margin-top: clamp(24px, 3vw, 36px);
+    max-width: 52ch;
+  }
+
+  .upcoming {
+    padding-bottom: clamp(48px, 6vw, 80px);
+  }
+
+  .event-list {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(40px, 5vw, 64px);
+  }
+
+  .past-list > li {
+    padding-bottom: clamp(24px, 3vw, 36px);
+    border-bottom: 1px solid var(--rule-soft);
+  }
+
+  .past-list > li + li {
+    padding-top: clamp(24px, 3vw, 36px);
+  }
+
+  .past-note {
+    margin-top: clamp(32px, 4vw, 48px);
+    max-width: 48ch;
+    font-size: 17px;
+    color: var(--grey);
+  }
+
+  /* --- Empty state --- */
+
+  .empty__title {
+    font-size: var(--step-h3);
+    letter-spacing: -0.03em;
+  }
+
+  .empty__body {
+    margin-top: 12px;
+    max-width: 52ch;
+    color: var(--grey);
+    font-size: 17px;
+    line-height: 1.6;
+  }
+
+  .empty__actions {
+    margin-top: 28px;
+  }
+</style>

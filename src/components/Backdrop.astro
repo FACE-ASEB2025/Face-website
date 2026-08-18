@@ -1,0 +1,131 @@
+---
+/**
+ * The page's background, as a single fixed layer behind everything.
+ *
+ * Three things, each almost invisible on its own — the point is what they add
+ * up to, not any one of them:
+ *
+ *   glow    two slow accent auroras, warming the top of the page
+ *   spot    a soft light that follows the pointer (fine pointers only)
+ *   grain   fine noise, which stops the large flat areas reading as plastic
+ *
+ * There is deliberately no grid or lattice here. The layout already draws its
+ * own structure with the horizontal section rules; a finer grid behind them
+ * competed with that instead of supporting it.
+ *
+ * It sits at z-index -1, so it paints above the page's background colour and
+ * below every piece of content. Nothing here is interactive or announced.
+ */
+---
+
+<div class="backdrop" aria-hidden="true">
+  <div class="backdrop__glow backdrop__glow--a"></div>
+  <div class="backdrop__glow backdrop__glow--b"></div>
+  <div class="backdrop__spot" data-spot></div>
+  <div class="backdrop__grain"></div>
+</div>
+
+<style>
+  .backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  /* --- Aurora ---
+     Wide radial gradients rather than a blur filter: same softness, none of
+     the per-frame cost. They drift on a long loop, far too slowly to notice
+     directly — you only register that the page isn't quite static. */
+  .backdrop__glow {
+    position: absolute;
+    width: min(70vw, 900px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(
+      closest-side,
+      color-mix(in oklab, var(--glow) var(--glow-strength), transparent),
+      transparent
+    );
+    will-change: transform;
+  }
+
+  /* Both auroras start below the header. It is opaque, so a glow rising
+     behind it would be sliced off at the rule and read as a seam. */
+  .backdrop__glow--a {
+    top: calc(var(--header-height) + 1vw);
+    left: -14vw;
+    animation: drift-a 38s ease-in-out infinite alternate;
+  }
+
+  .backdrop__glow--b {
+    top: calc(var(--header-height) + 9vw);
+    right: -20vw;
+    background: radial-gradient(
+      closest-side,
+      color-mix(in oklab, var(--glow-alt) var(--glow-strength), transparent),
+      transparent
+    );
+    animation: drift-b 46s ease-in-out infinite alternate;
+  }
+
+  @keyframes drift-a {
+    to {
+      transform: translate3d(8vw, 6vw, 0) scale(1.15);
+    }
+  }
+
+  @keyframes drift-b {
+    to {
+      transform: translate3d(-10vw, 10vw, 0) scale(0.9);
+    }
+  }
+
+  /* --- Pointer spotlight ---
+     Translated, never repositioned, so it stays on the compositor. Revealed
+     only once the cursor script confirms a real mouse is driving it. */
+  .backdrop__spot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 620px;
+    height: 620px;
+    margin: -310px 0 0 -310px;
+    border-radius: 50%;
+    opacity: 0;
+    background: radial-gradient(
+      closest-side,
+      color-mix(in oklab, var(--glow) var(--spot-strength), transparent),
+      transparent
+    );
+    transform: translate3d(-1000px, -1000px, 0);
+    transition: opacity 600ms ease;
+    will-change: transform;
+  }
+
+  :global(:root[data-cursor-on]) .backdrop__spot {
+    opacity: 1;
+  }
+
+  /* --- Grain ---
+     One inline SVG turbulence, tiled. No request, no image asset. */
+  .backdrop__grain {
+    position: absolute;
+    inset: 0;
+    opacity: var(--grain-strength);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Motion is the part people are sensitive to; the colour and texture are
+     not. The auroras stop where they are and the spotlight is dropped. */
+  @media (prefers-reduced-motion: reduce) {
+    .backdrop__glow {
+      animation: none;
+    }
+
+    .backdrop__spot {
+      display: none;
+    }
+  }
+</style>

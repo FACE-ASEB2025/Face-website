@@ -1,0 +1,189 @@
+---
+/**
+ * Site footer.
+ *
+ * Three columns — the mark and what FACE is, then quick links, then the
+ * channels — over a rule, with the small print centred beneath it. Every link
+ * carries its own glyph so the two columns scan as lists rather than as two
+ * undifferentiated stacks of text.
+ *
+ * The copyright year is computed at build time; the old hand-typed "© 2024"
+ * had already gone stale by the time anyone noticed.
+ */
+
+import { navItems, socialLinks, site } from '../data/site';
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a href="/" aria-label="FACE — home"><Logo width={148} /></a>
+        <p class="footer__blurb">{site.blurb}</p>
+        <p class="footer__address">
+          {site.address.map((line, i) => (<>{i > 0 && <br />}{line}</>))}
+        </p>
+      </div>
+
+      <nav class="footer__col" aria-labelledby="footer-pages">
+        <h2 class="footer__heading" id="footer-pages">Quick links</h2>
+        <ul>
+          {
+            navItems.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  target={item.external ? '_blank' : undefined}
+                  rel={item.external ? 'noopener noreferrer' : undefined}
+                >
+                  <Icon name={item.icon} size="16px" />
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="footer__col">
+        <h2 class="footer__heading" id="footer-connect">Connect</h2>
+        <ul aria-labelledby="footer-connect">
+          {
+            socialLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  target={link.href.startsWith('mailto:') ? undefined : '_blank'}
+                  rel={link.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+                >
+                  <Icon name={link.icon} size="16px" />
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <p>© {year} FACE — Amrita Vishwa Vidyapeetham, Bengaluru.</p>
+      <p>
+        Built with ❤️ by the <a href="/credits">web dev division</a>.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: clamp(24px, 4vw, 48px);
+    border-top: 1px solid var(--rule);
+    /* A shade of separation from the page above without introducing a second
+       surface colour: the same background, very slightly deepened. */
+    background: color-mix(in oklab, var(--fg) 3%, var(--bg));
+  }
+
+  .footer__top {
+    display: grid;
+    gap: clamp(32px, 4vw, 56px);
+    padding-block: clamp(40px, 5vw, 64px) clamp(32px, 4vw, 48px);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 48rem) {
+    .footer__top {
+      /* The brand column takes the slack; the two link columns stay the width
+         of their content. */
+      grid-template-columns: minmax(0, 1.6fr) auto auto;
+      gap: clamp(32px, 5vw, 88px);
+    }
+  }
+
+  .footer__blurb {
+    margin-top: 20px;
+    max-width: 38ch;
+    color: var(--grey);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .footer__address {
+    margin-top: 16px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.8;
+    color: var(--grey);
+  }
+
+  .footer__heading {
+    margin-bottom: 10px;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fg);
+  }
+
+  .footer__col ul {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .footer__col a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* Full-width rows, tall enough to hit comfortably on a phone. */
+    min-height: 40px;
+    color: var(--grey);
+    font-size: 15px;
+    text-decoration: none;
+    transition:
+      color var(--dur) var(--ease-out),
+      transform var(--dur) var(--ease-out);
+  }
+
+  .footer__col a :global(svg) {
+    color: var(--accent);
+    opacity: 0.75;
+    transition: opacity var(--dur) var(--ease-out);
+  }
+
+  .footer__col a:hover {
+    color: var(--fg);
+    text-decoration: none;
+    transform: translateX(3px);
+  }
+
+  .footer__col a:hover :global(svg) {
+    opacity: 1;
+  }
+
+  .footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px 24px;
+    padding-block: clamp(20px, 2.5vw, 28px) clamp(32px, 4vw, 48px);
+    border-top: 1px solid var(--rule-soft);
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--grey);
+  }
+
+  .footer__bottom a {
+    color: inherit;
+    text-decoration-color: var(--rule);
+  }
+
+  .footer__bottom a:hover {
+    color: var(--fg);
+  }
+</style>

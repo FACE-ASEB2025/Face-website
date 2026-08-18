@@ -1,0 +1,111 @@
+---
+import Base from '../layouts/Base.astro';
+import LinkRow from '../components/LinkRow.astro';
+import { socialLinks, site } from '../data/site';
+
+const description =
+  'Get in touch with FACE at Amrita Vishwa Vidyapeetham, Bengaluru — email, Instagram, LinkedIn and GitHub.';
+---
+
+<Base title="Contact" description={description}>
+  <section class="section section--head">
+    <p class="eyebrow page-eyebrow">Contact</p>
+    <h1 class="page-title">Get in touch</h1>
+    <p class="lead page-lead">
+      Open to every student at Amrita Bengaluru. Pick whichever of these you actually check.
+    </p>
+    <p class="headline-email">
+      <a href={`mailto:${site.email}`}>{site.email}</a>
+    </p>
+  </section>
+
+  <section class="section section--rule">
+    <p class="eyebrow block-label">Channels</p>
+
+    <div class="rows">
+      {
+        socialLinks.map((link) => (
+          <LinkRow
+            title={link.label}
+            icon={link.icon}
+            href={link.href}
+            handle={link.handle}
+            external={!link.href.startsWith('mailto:')}
+            data-reveal
+          >
+            {link.blurb}
+          </LinkRow>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section section--rule section--tail practical">
+    <div class="practical__col">
+      <p class="eyebrow">Find us</p>
+      <p class="practical__body">
+        {site.postalAddress.map((line, i) => (<>{i > 0 && <br />}{line}</>))}
+      </p>
+    </div>
+
+    <div class="practical__col">
+      <p class="eyebrow">Joining</p>
+      <p class="practical__body practical__body--narrow">
+        Recruitment runs at the start of each semester and is announced on Instagram. Between
+        rounds, come to a session and say hello.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-eyebrow {
+    display: block;
+    margin-bottom: clamp(24px, 3vw, 36px);
+  }
+
+  .page-lead {
+    margin-top: clamp(24px, 3vw, 36px);
+    max-width: 52ch;
+  }
+
+  .headline-email {
+    margin-top: clamp(28px, 3.5vw, 40px);
+    font-size: clamp(1.25rem, 2.4vw, 1.875rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    /* Long enough to wrap on a narrow phone, and it should break rather than
+       push the page sideways. */
+    overflow-wrap: anywhere;
+  }
+
+  .headline-email a {
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+
+  .block-label {
+    display: block;
+    margin-bottom: clamp(28px, 4vw, 44px);
+  }
+
+  .practical {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(24px, 4vw, 64px);
+  }
+
+  .practical__col {
+    flex: 1 1 min(100%, 300px);
+  }
+
+  .practical__body {
+    margin-top: 20px;
+    font-size: 19px;
+    line-height: 1.6;
+  }
+
+  .practical__body--narrow {
+    max-width: 44ch;
+  }
+</style>

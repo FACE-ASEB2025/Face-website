@@ -1,0 +1,289 @@
+---
+/**
+ * An event, in one of two treatments:
+ *
+ *   feature — the headline event. Full-width poster beside the copy, detail
+ *             list, registration button.
+ *   compact — a smaller poster beside a paragraph. Used for past events, and
+ *             on the home page where the event is a section rather than the
+ *             whole point of the page.
+ *
+ * `upcoming` controls emphasis rather than layout: a colour poster, the date
+ * in full contrast, and the registration CTA. Past events never show a CTA —
+ * the old site kept offering "Register Now" for an event six months gone.
+ */
+
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import { formatEventDate, type Event } from '../data/events';
+
+interface Props {
+  event: Event;
+  variant?: 'feature' | 'compact';
+  /** Colour poster, stronger date, and the registration button. */
+  upcoming?: boolean;
+  /** Anything else (data-reveal) lands on the article itself. */
+  [key: string]: unknown;
+}
+
+const { event, variant = 'compact', upcoming = false, ...rest } = Astro.props;
+const feature = variant === 'feature';
+// The feature treatment is only ever used for an event still ahead of us.
+const ahead = upcoming || feature;
+
+const dateLine = event.time
+  ? `${formatEventDate(event)} · ${event.time}`
+  : formatEventDate(event);
+---
+
+<article
+  class:list={[
+    'event',
+    feature ? 'event--feature' : 'event--compact',
+    ahead && 'event--ahead',
+  ]}
+  id={event.slug}
+  {...rest}
+>
+  <figure class="event__figure" data-parallax>
+    <Image
+      src={event.poster}
+      width={feature ? 640 : 320}
+      densities={[1, 1.5]}
+      alt={`Poster for ${event.title}`}
+      loading={feature ? 'eager' : 'lazy'}
+      class="event__poster"
+    />
+  </figure>
+
+  <div class="event__body">
+    <p class="event__date">
+      <Icon name="calendar" size="15px" />
+      <time datetime={event.date}>{dateLine}</time>
+    </p>
+    <h3 class="event__title">{event.title}</h3>
+    {event.subtitle && <p class="event__subtitle">{event.subtitle}</p>}
+    <p class="event__description">{event.description}</p>
+
+    {
+      feature ? (
+        <dl class="event__details">
+          <div>
+            <dt>
+              <Icon name="map-pin" size="14px" />
+              Venue
+            </dt>
+            <dd>{event.venue}</dd>
+          </div>
+          <div>
+            <dt>
+              <Icon name="clock" size="14px" />
+              Topics
+            </dt>
+            <dd>{event.topics.join(' · ')}</dd>
+          </div>
+          {event.entry && (
+            <div>
+              <dt>
+                <Icon name="ticket" size="14px" />
+                Entry
+              </dt>
+              <dd>{event.entry}</dd>
+            </div>
+          )}
+        </dl>
+      ) : (
+        <p class="event__meta">{[event.venue, ...event.topics].join(' · ')}</p>
+      )
+    }
+
+    {
+      ahead && event.registerUrl && (
+        <div class="actions event__actions">
+          <a class="btn" href={event.registerUrl} target="_blank" rel="noopener noreferrer">
+            Register
+            <Icon name="arrow-up-right" size="17px" />
+          </a>
+          {/* Pages override the secondary action: "All events" on the home
+              page, "Ask a question" wherever the listing already is. */}
+          <slot name="secondary">
+            <a class="btn-quiet" href="/contact">
+              Ask a question
+            </a>
+          </slot>
+        </div>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .event {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .event__figure {
+    margin: 0;
+  }
+
+  /* No aspect-ratio and no object-fit: the poster is shown whole, at whatever
+     proportions it was designed at. Cropping artwork that has type on it is
+     never the right call. */
+  .event__poster {
+    width: 100%;
+    height: auto;
+    background-color: var(--photo-bg);
+  }
+
+  .event__date {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 14px;
+  }
+
+  .event__title {
+    margin-top: 14px;
+    letter-spacing: -0.036em;
+    line-height: 1.03;
+  }
+
+  .event__subtitle {
+    margin-top: 12px;
+    color: var(--grey);
+  }
+
+  .event__description {
+    margin-top: 24px;
+    max-width: 56ch;
+    font-size: 17px;
+    line-height: 1.65;
+  }
+
+  /* --- Feature --- */
+
+  .event--feature {
+    gap: clamp(24px, 4vw, 56px);
+  }
+
+  /* The poster leads on wide screens and on narrow ones alike; the copy is
+     first in the DOM so the heading is what a screen reader reaches first. */
+  .event--feature .event__figure {
+    flex: 1 1 min(100%, 340px);
+    order: 1;
+  }
+
+  .event--feature .event__body {
+    flex: 1 1 min(100%, 380px);
+    order: 2;
+  }
+
+  .event--feature .event__title {
+    font-size: clamp(1.75rem, 3.4vw, 2.75rem);
+  }
+
+  .event--feature .event__subtitle {
+    font-size: 19px;
+  }
+
+  .event__details {
+    margin-top: 28px;
+  }
+
+  .event__details > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    padding-block: 12px;
+    border-top: 1px solid var(--rule-soft);
+  }
+
+  .event__details > div:last-child {
+    border-bottom: 1px solid var(--rule-soft);
+  }
+
+  .event__details dt {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex: 0 0 auto;
+    width: 110px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--grey);
+  }
+
+  .event__details dd {
+    flex: 1 1 260px;
+    font-size: 16px;
+  }
+
+  .event__actions {
+    margin-top: 32px;
+  }
+
+  /* --- Compact --- */
+
+  .event--compact {
+    gap: clamp(20px, 3vw, 48px);
+  }
+
+  .event--compact .event__figure {
+    flex: 0 0 auto;
+    width: min(240px, 100%);
+  }
+
+  /* Past posters are held back in greyscale so whatever is still ahead keeps
+     the only full-colour image on the page. */
+  .event--compact .event__poster {
+    filter: grayscale(1) contrast(1.05);
+    transition: filter var(--dur-slow) var(--ease-out);
+  }
+
+  .event--compact:hover .event__poster {
+    filter: none;
+  }
+
+  .event--ahead .event__poster {
+    filter: none;
+  }
+
+  .event--compact .event__body {
+    flex: 1 1 min(100%, 420px);
+  }
+
+  .event--compact .event__date {
+    font-size: 13.5px;
+    color: var(--grey);
+  }
+
+  .event--compact.event--ahead .event__date {
+    color: var(--fg);
+  }
+
+  .event--compact .event__title {
+    margin-top: 12px;
+    font-size: clamp(1.5rem, 2.6vw, 2.125rem);
+    font-weight: 600;
+    letter-spacing: -0.032em;
+  }
+
+  .event--compact .event__subtitle {
+    margin-top: 10px;
+    font-size: 17px;
+  }
+
+  .event--compact .event__description {
+    margin-top: 18px;
+  }
+
+  .event__meta {
+    margin-top: 18px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--grey);
+  }
+</style>

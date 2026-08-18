@@ -1,0 +1,55 @@
+---
+/**
+ * The FACE wordmark, theme-aware.
+ *
+ * The source artwork is light-grey line work that only reads on a dark
+ * surface, so a dark-ink variant is generated from it (see
+ * scripts/generate-brand-assets.mjs) and swapped in via <picture>. No JS, and
+ * no flash of the wrong one on load.
+ *
+ * Both variants are rendered into the same box, so the swap is pixel-identical
+ * and nothing shifts when the scheme changes.
+ */
+
+import { getImage } from 'astro:assets';
+import logoOnDark from '../assets/face-logo.png';
+import logoOnLight from '../assets/face-logo-ink.png';
+
+interface Props {
+  /** Rendered width in px. Height follows the 321:160 source ratio. */
+  width?: number;
+  class?: string;
+}
+
+const { width = 132, class: className } = Astro.props;
+const height = Math.round((width * 160) / 321);
+
+const dark = await getImage({ src: logoOnDark, width: width * 2, format: 'webp' });
+const light = await getImage({ src: logoOnLight, width: width * 2, format: 'webp' });
+---
+
+<picture class={className}>
+  <source srcset={dark.src} media="(prefers-color-scheme: dark)" />
+  <img
+    src={light.src}
+    width={width}
+    height={height}
+    alt="FACE — Amrita Bengaluru"
+    decoding="async"
+  />
+</picture>
+
+<style>
+  picture {
+    display: block;
+  }
+
+  /* The width/height attributes carry the rendered size — the source file is
+     drawn at 2x for sharpness, so letting CSS stretch the image to its
+     intrinsic width would double the mark and the header with it. */
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+</style>

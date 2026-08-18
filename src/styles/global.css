@@ -1,0 +1,603 @@
+/* ==========================================================================
+   FACE — Global stylesheet
+   --------------------------------------------------------------------------
+   An editorial layout: no cards, no shadows, no corner radii. Structure comes
+   from hairline rules and a single 1180px measure; emphasis comes from type
+   size and the mono/sans split. Anything that reads as *data* — dates, roles,
+   counts, labels, addresses — is set in IBM Plex Mono. Everything else is
+   Instrument Sans. Neue Machina is reserved for the FACE wordmark alone.
+
+   Structure:
+     1. Fonts
+     2. Tokens          (colour, type, space)
+     3. Reset & base
+     4. Layout primitives
+     5. Components
+     6. Motion & accessibility
+   ========================================================================== */
+
+/* 1. Fonts ---------------------------------------------------------------- */
+
+@font-face {
+  font-family: 'Neue Machina';
+  src: url('/fonts/NeueMachina-Ultrabold.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 2. Tokens ---------------------------------------------------------------
+   The palette is eight values deep on purpose. A page built from rules and
+   type doesn't need surface/raised/sunken variants — it needs one background,
+   one foreground, one muted grey, two rule weights and an accent.
+   -------------------------------------------------------------------------- */
+
+:root {
+  color-scheme: light dark;
+
+  --bg: #ebebfa;
+  --fg: #050514;
+  --grey: #55556b;              /*  6.1:1 on --bg */
+  --rule: rgb(5 5 20 / 16%);
+  --rule-soft: rgb(5 5 20 / 9%);
+  --accent: #1e1881;            /* 11.8:1 on --bg */
+  --on-accent: #ebebfa;         /* 11.8:1 on --accent */
+  --photo-bg: #dcdcee;
+  --scroll-thumb: color-mix(in oklab, var(--accent) 38%, transparent);
+  --scroll-thumb-hover: color-mix(in oklab, var(--accent) 70%, transparent);
+  --scroll-track-fill: color-mix(in oklab, var(--accent) 12%, transparent);
+
+  /* Backdrop. Deliberately weak — see Backdrop.astro. */
+  --glow: #3129d6;
+  --glow-alt: #0d00ff;
+  /* Where the glow and the spotlight overlap at full strength, muted grey text
+     still measures 5.0:1 against the lightened background. That worst case is
+     what sets these numbers, not how they look on an empty page. */
+  --glow-strength: 8%;
+  --spot-strength: 5%;
+  --grain-strength: 0.035;
+
+  --sans: 'Instrument Sans Variable', ui-sans-serif, system-ui, 'Helvetica Neue', Helvetica,
+    sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+  --display: 'Neue Machina', var(--sans);
+
+  /* Type. The middle term is pure vw, as drawn; the bounds are in rem so a
+     reader who raises their browser's base size still gets a bigger floor
+     and ceiling. At the default 16px root these are the design's numbers
+     exactly: 46/104, 42/88, 18/21, 26/38, 23/30 and 21/27 px. */
+  --step-hero: clamp(2.875rem, 8.4vw, 6.5rem);
+  --step-page: clamp(2.625rem, 7vw, 5.5rem);
+  --step-lead: clamp(1.125rem, 1.5vw, 1.3125rem);
+  --step-h2: clamp(1.625rem, 3vw, 2.375rem);
+  --step-h3: clamp(1.4375rem, 2.2vw, 1.875rem);
+  --step-h4: clamp(1.3125rem, 2vw, 1.6875rem);
+
+  /* Layout */
+  --wrap: 1180px;
+  --gutter: clamp(20px, 4vw, 44px);
+  /* Measured: the wordmark at 62px plus its 12px padding and the rule. Used
+     for anchor offsets and to start the backdrop glow below the bar. */
+  --header-height: 88px;
+
+  /* The mono column that opens most rows. Below the row's flex-wrap point it
+     drops to full width and the label sits above the body instead. */
+  --meta-column: 180px;
+
+  --z-nav: 50;
+  --z-loader: 1000;
+  --z-cursor: 2000;
+
+  /* Motion. One duration and one curve for the whole site, so nothing feels
+     like it belongs to a different page. */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur: 240ms;
+  --dur-slow: 620ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #050514;
+    --fg: #ebebfa;
+    --grey: #9c9cb4;            /* 7.6:1 on --bg */
+    --rule: rgb(235 235 250 / 18%);
+    --rule-soft: rgb(235 235 250 / 10%);
+    --accent: #847ee7;          /* 5.9:1 on --bg */
+    --on-accent: #050514;       /* 5.9:1 on --accent */
+    --photo-bg: #12122a;
+    --scroll-thumb: color-mix(in oklab, var(--accent) 34%, transparent);
+    --scroll-thumb-hover: color-mix(in oklab, var(--accent) 66%, transparent);
+    --scroll-track-fill: color-mix(in oklab, var(--accent) 18%, transparent);
+
+    --glow: #5b54de;
+    --glow-alt: #2019e6;
+    /* A dark page carries far more glow before text starts to suffer: the
+       same worst-case overlap still measures 5.4:1 on muted grey. */
+    --glow-strength: 26%;
+    --spot-strength: 14%;
+    --grain-strength: 0.05;
+  }
+}
+
+/* 3. Reset & base --------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  /* The standard property, honoured by Firefox and by Chrome 121+. Declared
+     first so the WebKit rules below can refine it rather than fight it. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--scroll-thumb) transparent;
+}
+
+/* WebKit/Blink's older pseudo-elements, for the browsers that don't take
+   scrollbar-color yet. The thumb is inset with a transparent border rather
+   than made narrow, which keeps the grab target a full 14px wide while the
+   visible bar reads as a hairline. */
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+
+/* Read position, shown as the track filling in behind the thumb — the same
+   information a bar across the top of the page was carrying, in the place
+   people already look for it. `--progress` is written to :root on scroll.
+   Firefox only accepts a flat colour for the track, so it simply doesn't
+   get the fill; nothing breaks. */
+::-webkit-scrollbar-track {
+  background-image: linear-gradient(
+    to bottom,
+    var(--scroll-track-fill) calc(var(--progress, 0) * 100%),
+    transparent 0
+  );
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--scroll-thumb);
+  background-clip: content-box;
+  border: 4px solid transparent;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scroll-thumb-hover);
+}
+
+/* Chrome draws a button-ish box in the bottom corner otherwise. */
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+body {
+  min-height: 100dvh;
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.6;
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* Links in running text are underlined, always. Colour alone is not an
+   affordance — and at these type sizes an accent that only differs in hue
+   reads as plain text to most people. */
+a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-decoration-color: color-mix(in oklab, var(--accent) 45%, transparent);
+  text-underline-offset: 0.22em;
+  transition:
+    text-decoration-color var(--dur) var(--ease-out),
+    color var(--dur) var(--ease-out);
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+  text-decoration-color: currentColor;
+}
+
+img,
+picture,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Clears the sticky header when jumping to an anchor. */
+[id] {
+  scroll-margin-top: calc(var(--header-height) + 28px);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+/* 4. Layout primitives ----------------------------------------------------
+   `.wrap` is the single measure the whole site is built on. Section rules are
+   drawn *inside* it, so they stop at the text column rather than bleeding to
+   the viewport edge — except on the header and footer, where the rule is the
+   full-width edge of the band itself.
+   -------------------------------------------------------------------------- */
+
+.wrap {
+  width: 100%;
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: clamp(40px, 5vw, 64px);
+}
+
+.section--rule {
+  border-top: 1px solid var(--rule);
+}
+
+/* Opening section of a page: taller, and never ruled. */
+.section--head {
+  padding-block: clamp(56px, 9vw, 112px) clamp(40px, 5vw, 64px);
+}
+
+/* Closing section: extra room before the footer. */
+.section--tail {
+  padding-bottom: clamp(56px, 7vw, 96px);
+}
+
+.skip-link {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: var(--z-loader);
+  padding: 12px 18px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-200%);
+  transition: transform 200ms ease;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 5. Components ----------------------------------------------------------- */
+
+/* --- Type roles --- */
+
+/* Small mono label above a heading, and the caption style for anything that
+   is data rather than prose. */
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--grey);
+}
+
+.mono {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--grey);
+}
+
+.page-title {
+  max-width: 14ch;
+  font-size: var(--step-page);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+
+.lead {
+  max-width: 54ch;
+  font-size: var(--step-lead);
+  line-height: 1.5;
+}
+
+.section-title {
+  font-size: var(--step-h2);
+  letter-spacing: -0.035em;
+}
+
+/* Heading with a count (or a link) pushed to the opposite margin. */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: clamp(28px, 3.5vw, 44px);
+}
+
+/* --- Rows ---
+   The workhorse pattern: a fixed mono column (a number, a count, a name) and
+   a flexible body, separated from the next row by a hairline. Carries the
+   division lists, the numbered "what we run" list, the contact channels and
+   the credits stack. --- */
+
+.rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(8px, 3vw, 48px);
+  padding-block: clamp(20px, 2.4vw, 28px);
+}
+
+.row:not(:last-child) {
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+/* Numbered and explanatory rows breathe a little more than link rows. */
+.rows--roomy .row {
+  padding-block: clamp(24px, 3vw, 34px);
+}
+
+.row__meta {
+  flex: 0 0 auto;
+  width: var(--meta-column);
+  max-width: 100%;
+}
+
+.row__body {
+  flex: 1 1 min(100%, 540px);
+}
+
+/* Link rows keep the foreground colour and take their affordance from the
+   trailing glyph and a hover underline, rather than from link blue. */
+a.row {
+  color: var(--fg);
+  text-decoration: none;
+}
+
+a.row:hover :is(.row__title, .row__heading) {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.row__title {
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.row__glyph {
+  flex-shrink: 0;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--grey);
+}
+
+/* --- Buttons and inline links --- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  /* 46px is a comfortable touch target without looking chunky. */
+  min-height: 46px;
+  padding-inline: 22px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: opacity 150ms ease;
+}
+
+.btn:hover {
+  opacity: 0.88;
+  color: var(--on-accent);
+  text-decoration: none;
+}
+
+/* Buttons and rows lift very slightly under the pointer — enough to confirm
+   the target, not enough to move anything around it. */
+.btn:active {
+  transform: translateY(1px);
+}
+
+/* Secondary action: underlined in the rule colour, darkening on hover. */
+.btn-quiet {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding-inline: 4px;
+  color: var(--fg);
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+  text-underline-offset: 0.22em;
+  transition: text-decoration-color 150ms ease;
+}
+
+.btn-quiet:hover {
+  color: var(--fg);
+  text-decoration-color: var(--fg);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+}
+
+/* --- People grids --- */
+
+.people {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(176px, 100%), 1fr));
+  gap: clamp(18px, 2vw, 28px);
+}
+
+/* Office bearers sit largest, the credits team between the two. */
+.people--lg {
+  grid-template-columns: repeat(auto-fill, minmax(min(232px, 100%), 1fr));
+  gap: clamp(20px, 2.4vw, 32px);
+}
+
+.people--md {
+  grid-template-columns: repeat(auto-fill, minmax(min(210px, 100%), 1fr));
+  gap: clamp(20px, 2.4vw, 32px);
+}
+
+/* 6. Motion & accessibility -----------------------------------------------
+   Three effects, all built on the same duration and curve:
+
+     scroll-reveal — content rises and fades in as it enters the viewport,
+                     staggered within a group so a grid arrives as a wave
+                     rather than a slab.
+     scroll-progress — the scrollbar track fills behind the thumb (see the
+                     scrollbar rules above; `--progress` is set on :root).
+     page transitions — a short crossfade between routes (see Base.astro).
+
+   All of them start from a state that is *visible*, and are only hidden once
+   `.js` confirms something is there to reveal them again.
+   -------------------------------------------------------------------------- */
+
+.js [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 1.25rem, 0);
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+  /* Set per item by the observer, so members of a group follow each other in
+     rather than landing together. */
+  transition-delay: var(--reveal-delay, 0ms);
+  /* NOTE: a component's own scoped `transition` on the same element outranks
+     this rule and would cancel the reveal. Put component transitions on a
+     child (see MemberFigure) rather than on the element carrying
+     data-reveal. */
+}
+
+.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Posters and portraits drift a little slower than the page as they pass. The
+   observer only feeds `--shift` to elements currently on screen. */
+.js [data-parallax] {
+  transform: translate3d(0, var(--shift, 0px), 0);
+  will-change: transform;
+}
+
+/* Route change: the outgoing page fades out slightly faster than the incoming
+   one fades in, which reads as responsive rather than sluggish. */
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+}
+
+@keyframes page-out {
+  to {
+    opacity: 0;
+    transform: translate3d(0, -6px, 0);
+  }
+}
+
+::view-transition-old(root) {
+  animation: page-out 180ms var(--ease-out) both;
+}
+
+::view-transition-new(root) {
+  animation: page-in 320ms var(--ease-out) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .js [data-parallax] {
+    transform: none;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}

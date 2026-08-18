@@ -1,0 +1,150 @@
+---
+import Base from '../layouts/Base.astro';
+import MetaRow from '../components/MetaRow.astro';
+import { divisions, memberCount, pocLine } from '../data/team';
+
+const values = [
+  {
+    title: 'Innovation hub',
+    body: 'Hands-on projects and workshops where the point is the thing you built, not the certificate. People leave having shipped.',
+  },
+  {
+    title: 'Learning community',
+    body: 'A place to be a beginner in public. Seniors and first-years work on the same problems, and nobody is expected to already know.',
+  },
+  {
+    title: 'Networking',
+    body: 'Tech talks and sessions with industry practitioners, plus the peer network that outlasts any single semester.',
+  },
+];
+
+const description =
+  'FACE is the student-run tech community at Amrita Vishwa Vidyapeetham, Bengaluru — four divisions running workshops, tech talks and build nights.';
+---
+
+<Base title="About" description={description}>
+  <section class="section section--head">
+    <p class="eyebrow page-eyebrow">About</p>
+    <h1 class="page-title">Who we are</h1>
+    <p class="lead page-lead">
+      FACE is the student tech community at Amrita Vishwa Vidyapeetham, Bengaluru. We are {
+        memberCount
+      } students across {divisions.length} divisions, and we exist because building things with
+      other people is better than building them alone.
+    </p>
+  </section>
+
+  <section class="section section--rule">
+    <p class="eyebrow block-label">How it works</p>
+
+    <div class="rows rows--roomy">
+      {
+        values.map((value, i) => (
+          <MetaRow
+            meta={String(i + 1).padStart(2, '0')}
+            title={value.title}
+            as="h2"
+            data-reveal
+          >
+            {value.body}
+          </MetaRow>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section section--rule">
+    <p class="eyebrow">Structure</p>
+    <h2 class="structure__title">Four divisions</h2>
+    <p class="structure__lead">
+      Every member sits in a division, led by points of contact who plan the term's work.
+    </p>
+
+    <div class="rows structure__rows">
+      {
+        divisions.map((division) => (
+          <MetaRow
+            meta={`${division.members.length} members`}
+            title={division.name}
+            compact
+            data-reveal
+          >
+            {`${division.blurb} ${pocLine(division)}`}
+          </MetaRow>
+        ))
+      }
+    </div>
+
+    <p class="structure__more"><a href="/team">Meet everyone</a></p>
+  </section>
+
+  <section class="section section--rule section--tail closing">
+    <h2 class="closing__title">Innovate. Iterate. Integrate.</h2>
+    <p class="closing__body">
+      Three words we put on the poster in 2025 and have not needed to change. The next workshop
+      is usually the best way in.
+    </p>
+    <p class="closing__more"><a href="/events">See what is coming up</a></p>
+  </section>
+</Base>
+
+<style>
+  .page-eyebrow {
+    display: block;
+    margin-bottom: clamp(24px, 3vw, 36px);
+  }
+
+  .page-lead {
+    margin-top: clamp(24px, 3vw, 36px);
+  }
+
+  .block-label {
+    display: block;
+    margin-bottom: clamp(28px, 4vw, 44px);
+  }
+
+  .structure__title {
+    margin-top: clamp(20px, 2.5vw, 28px);
+    font-size: clamp(1.875rem, 3.8vw, 3rem);
+    letter-spacing: -0.038em;
+  }
+
+  .structure__lead {
+    margin-top: 16px;
+    max-width: 50ch;
+    font-size: 18px;
+    color: var(--grey);
+  }
+
+  .structure__rows {
+    margin-top: clamp(32px, 4vw, 52px);
+  }
+
+  .structure__more {
+    margin-top: clamp(32px, 4vw, 48px);
+    font-size: 17px;
+  }
+
+  .closing {
+    padding-top: clamp(48px, 6vw, 88px);
+  }
+
+  .closing__title {
+    max-width: 24ch;
+    font-size: clamp(1.75rem, 3.4vw, 2.625rem);
+    letter-spacing: -0.036em;
+  }
+
+  .closing__body {
+    margin-top: 20px;
+    max-width: 50ch;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--grey);
+  }
+
+  .closing__more {
+    margin-top: 24px;
+    font-size: 17px;
+  }
+</style>

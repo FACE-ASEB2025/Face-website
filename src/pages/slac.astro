@@ -1,0 +1,49 @@
+---
+/**
+ * The old site shipped slac.html as a dead "Coming Soon" placeholder while the
+ * navigation pointed somewhere else entirely. SLAC is live now, so this keeps
+ * the old URL working by forwarding to it — with a visible link in case the
+ * meta refresh is blocked.
+ */
+
+import Base from '../layouts/Base.astro';
+
+const target = 'https://slac.netlify.app';
+---
+
+<Base title="SLAC" description="SLAC has moved to slac.netlify.app." index={false}>
+  <Fragment slot="head">
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+  </Fragment>
+
+  <section class="section section--head section--tail">
+    <p class="eyebrow page-eyebrow">Redirecting</p>
+    <h1 class="page-title">SLAC has its own site</h1>
+    <p class="lead page-lead">
+      You should arrive at <strong>slac.netlify.app</strong> in a moment. If nothing happens, use
+      the link below.
+    </p>
+    <div class="actions page-actions">
+      <a class="btn" href={target}>Go to SLAC</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-eyebrow {
+    display: block;
+    margin-bottom: clamp(24px, 3vw, 36px);
+  }
+
+  .page-lead {
+    margin-top: clamp(24px, 3vw, 36px);
+  }
+
+  .page-lead strong {
+    font-weight: 600;
+  }
+
+  .page-actions {
+    margin-top: 32px;
+  }
+</style>
