@@ -155,14 +155,16 @@ const year = new Date().getFullYear();
     transition: opacity var(--dur) var(--ease-out);
   }
 
-  .footer__col a:hover {
-    color: var(--fg);
-    text-decoration: none;
-    transform: translateX(3px);
-  }
+  @media (hover: hover) {
+    .footer__col a:hover {
+      color: var(--fg);
+      text-decoration: none;
+      transform: translateX(3px);
+    }
 
-  .footer__col a:hover :global(svg) {
-    opacity: 1;
+    .footer__col a:hover :global(svg) {
+      opacity: 1;
+    }
   }
 
   .footer__bottom {
@@ -183,7 +185,9 @@ const year = new Date().getFullYear();
     text-decoration-color: var(--rule);
   }
 
-  .footer__bottom a:hover {
-    color: var(--fg);
+  @media (hover: hover) {
+    .footer__bottom a:hover {
+      color: var(--fg);
+    }
   }
 </style>

@@ -65,9 +65,11 @@ const { title, href, handle, icon, external = false, ...rest } = Astro.props;
     transition: transform var(--dur) var(--ease-out), color var(--dur) var(--ease-out);
   }
 
-  .row:hover .row__arrow {
-    color: var(--accent);
-    transform: translate(3px, -3px);
+  @media (hover: hover) {
+    .row:hover .row__arrow {
+      color: var(--accent);
+      transform: translate(3px, -3px);
+    }
   }
 
   .row__handle {

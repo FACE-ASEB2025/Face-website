@@ -217,9 +217,15 @@ a {
     color var(--dur) var(--ease-out);
 }
 
-a:hover {
-  text-decoration-thickness: 2px;
-  text-decoration-color: currentColor;
+/* Gated on a real pointer. A touch browser applies :hover on tap and leaves it
+   applied until you tap somewhere else, so an ungated hover state reads as a
+   link that got stuck rather than as feedback. Every :hover on the site sits
+   behind this query for that reason. */
+@media (hover: hover) {
+  a:hover {
+    text-decoration-thickness: 2px;
+    text-decoration-color: currentColor;
+  }
 }
 
 img,
@@ -413,9 +419,11 @@ a.row {
   text-decoration: none;
 }
 
-a.row:hover :is(.row__title, .row__heading) {
-  text-decoration: underline;
-  text-underline-offset: 0.18em;
+@media (hover: hover) {
+  a.row:hover :is(.row__title, .row__heading) {
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
 }
 
 .row__title {
@@ -449,10 +457,12 @@ a.row:hover :is(.row__title, .row__heading) {
   transition: opacity 150ms ease;
 }
 
-.btn:hover {
-  opacity: 0.88;
-  color: var(--on-accent);
-  text-decoration: none;
+@media (hover: hover) {
+  .btn:hover {
+    opacity: 0.88;
+    color: var(--on-accent);
+    text-decoration: none;
+  }
 }
 
 /* Buttons and rows lift very slightly under the pointer — enough to confirm
@@ -477,9 +487,11 @@ a.row:hover :is(.row__title, .row__heading) {
   transition: text-decoration-color 150ms ease;
 }
 
-.btn-quiet:hover {
-  color: var(--fg);
-  text-decoration-color: var(--fg);
+@media (hover: hover) {
+  .btn-quiet:hover {
+    color: var(--fg);
+    text-decoration-color: var(--fg);
+  }
 }
 
 .actions {
@@ -506,6 +518,20 @@ a.row:hover :is(.row__title, .row__heading) {
 .people--md {
   grid-template-columns: repeat(auto-fill, minmax(min(210px, 100%), 1fr));
   gap: clamp(20px, 2.4vw, 32px);
+}
+
+/* Two a row on a phone, explicitly. The auto-fill minimums above are all wider
+   than half a 375px screen, so they resolve to a single column and turn a
+   29-person roster into a very long stack of very large faces. A portrait is
+   still ~155px across here, which clears the desktop grid floor of 176px by
+   less than a crop notices. */
+@media (max-width: 40rem) {
+  .people,
+  .people--lg,
+  .people--md {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(14px, 4vw, 22px);
+  }
 }
 
 /* 6. Motion & accessibility -----------------------------------------------

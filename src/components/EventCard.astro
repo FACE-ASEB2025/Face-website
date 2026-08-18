@@ -236,6 +236,15 @@ const dateLine = event.time
     width: min(240px, 100%);
   }
 
+  /* Below ~745px the poster has already wrapped onto a row of its own, where a
+     fixed 240px block leaves a third of the measure empty beside it and reads
+     as a mistake rather than a choice. Let it take the column. */
+  @media (max-width: 46rem) {
+    .event--compact .event__figure {
+      width: 100%;
+    }
+  }
+
   /* Past posters are held back in greyscale so whatever is still ahead keeps
      the only full-colour image on the page. */
   .event--compact .event__poster {
@@ -243,8 +252,18 @@ const dateLine = event.time
     transition: filter var(--dur-slow) var(--ease-out);
   }
 
-  .event--compact:hover .event__poster {
-    filter: none;
+  @media (hover: hover) {
+    .event--compact:hover .event__poster {
+      filter: none;
+    }
+  }
+
+  /* Same reasoning as the portraits: with no pointer the colour never comes
+     back, so a touch device gets the poster as it was drawn. */
+  @media (hover: none) {
+    .event--compact .event__poster {
+      filter: none;
+    }
   }
 
   .event--ahead .event__poster {

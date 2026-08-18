@@ -80,11 +80,26 @@ const width = large ? 420 : 320;
     background-color: var(--photo-bg);
   }
 
-  .person:hover .person__photo,
   /* Keyboard users reach the photo through its links, so colour returns on
      focus too rather than only under a pointer. */
   .person:focus-within .person__photo {
     filter: none;
+  }
+
+  @media (hover: hover) {
+    .person:hover .person__photo {
+      filter: none;
+    }
+  }
+
+  /* A touch device has no pointer to hold over a face, so the payoff never
+     arrives and the whole roster would stay grey for good. Give it up front
+     instead: the greyscale is there to stop a wall of photos reading as
+     mismatched, and two portraits a row is not a wall. */
+  @media (hover: none) {
+    .person__photo {
+      filter: none;
+    }
   }
 
   .person__caption {
@@ -127,9 +142,11 @@ const width = large ? 420 : 320;
     transition: color 150ms ease;
   }
 
-  .person__links a:hover {
-    color: var(--fg);
-    text-decoration: none;
+  @media (hover: hover) {
+    .person__links a:hover {
+      color: var(--fg);
+      text-decoration: none;
+    }
   }
 
   .person--lg .person__caption {

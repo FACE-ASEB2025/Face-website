@@ -69,7 +69,11 @@ function isCurrent(href: string, external?: boolean) {
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 24px;
+    /* Column gap only. Between roughly 544px and 596px the menu wraps under
+       the wordmark, and a 24px row gap there bought nothing but 24px of bar:
+       the wordmark already carries its own 12px of padding underneath. */
+    column-gap: 24px;
+    row-gap: 0;
     min-height: var(--header-height);
   }
 
@@ -83,8 +87,10 @@ function isCurrent(href: string, external?: boolean) {
     transition: opacity 150ms ease;
   }
 
-  .nav__brand:hover {
-    opacity: 0.75;
+  @media (hover: hover) {
+    .nav__brand:hover {
+      opacity: 0.75;
+    }
   }
 
   .nav__menu {
@@ -110,9 +116,11 @@ function isCurrent(href: string, external?: boolean) {
     transition: color 150ms ease;
   }
 
-  .nav__link:hover {
-    color: var(--fg);
-    text-decoration: none;
+  @media (hover: hover) {
+    .nav__link:hover {
+      color: var(--fg);
+      text-decoration: none;
+    }
   }
 
   /* Current page is marked by weight and a rule, never by colour alone. */
@@ -127,15 +135,41 @@ function isCurrent(href: string, external?: boolean) {
     font-size: 11px;
   }
 
-  /* On a phone the brand keeps its own row and the links wrap beneath it. */
+  /* On a phone the brand keeps its own row and the links sit beneath it.
+     Left to wrap on their own the six go 5 + 1, which strands "Credits" on a
+     line by itself and leaves the bar 185px tall — close to a quarter of the
+     screen before a word of the page. A 3 x 2 grid is the same six links,
+     every one still visible and one tap away, in 25px less height, and it
+     reads as a menu rather than as an accident of wrapping. */
   @media (max-width: 34rem) {
     .nav__inner {
       gap: 0;
-      padding-bottom: 8px;
+      /* Two short rows: the single-row height no longer describes this bar. */
+      min-height: 0;
+      padding-bottom: 10px;
+    }
+
+    .nav__brand {
+      padding-block: 12px 6px;
+    }
+
+    /* The mark is the one thing here that can afford to be smaller. At 124px
+       it stands taller than both rows of links put together. */
+    .nav__brand :global(img) {
+      width: 100px;
     }
 
     .nav__menu {
-      margin-left: -10px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      /* Pulls the padding of both edge columns back off the measure, so the
+         first label starts flush with the wordmark above it. */
+      width: calc(100% + 20px);
+      margin-inline: -10px;
+    }
+
+    .nav__link {
+      min-height: 40px;
     }
   }
 </style>

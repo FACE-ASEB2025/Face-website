@@ -114,9 +114,11 @@ const description =
     transition: color 150ms ease;
   }
 
-  .jump a:hover {
-    color: var(--fg);
-    text-decoration: none;
+  @media (hover: hover) {
+    .jump a:hover {
+      color: var(--fg);
+      text-decoration: none;
+    }
   }
 
   .jump a:not(:last-child)::after {

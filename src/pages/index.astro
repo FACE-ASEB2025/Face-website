@@ -214,8 +214,10 @@ const figures = [
     text-decoration: none;
   }
 
-  .hero__cue:hover {
-    color: var(--fg);
+  @media (hover: hover) {
+    .hero__cue:hover {
+      color: var(--fg);
+    }
   }
 
   .hero__cue :global(svg) {
@@ -330,10 +332,24 @@ const figures = [
       opacity var(--dur) var(--ease-out);
   }
 
-  .faces__link:hover .faces__photo,
   .faces__link:focus-visible .faces__photo {
     filter: none;
     opacity: 1;
+  }
+
+  @media (hover: hover) {
+    .faces__link:hover .faces__photo {
+      filter: none;
+      opacity: 1;
+    }
+  }
+
+  /* Three faces, held back for a hover that can never happen. Show them. */
+  @media (hover: none) {
+    .faces__photo {
+      filter: none;
+      opacity: 1;
+    }
   }
 
   .faces__caption {
@@ -345,8 +361,10 @@ const figures = [
     font-weight: 500;
   }
 
-  .faces__link:hover .faces__caption :global(svg) {
-    transform: translateX(4px);
+  @media (hover: hover) {
+    .faces__link:hover .faces__caption :global(svg) {
+      transform: translateX(4px);
+    }
   }
 
   .faces__caption :global(svg) {
