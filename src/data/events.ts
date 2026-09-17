@@ -14,6 +14,7 @@ import type { ImageMetadata } from 'astro';
 
 import aiHealthcare from '../assets/events/ai-healthcare.jpg';
 import pythonIot from '../assets/events/python-iot.jpeg';
+import trialathon from '../assets/events/trialathon.png';
 
 export type Event = {
   /** URL-safe id, used for anchor links. */
@@ -37,6 +38,20 @@ export type Event = {
 };
 
 export const events: Event[] = [
+  {
+    slug: 'trialathon',
+    title: 'TRIALATHON',
+    subtitle: 'Three stages. One ultimate challenge.',
+    date: '2026-08-16',
+    endDate: '2026-10-10',
+    venue: 'Amrita Vishwa Vidyapeetham, Bengaluru',
+    entry: 'Open to all students — teams of 1–4',
+    description:
+      'A three-part technical gauntlet running across the semester: a competitive coding sprint, a CTF-style cybersecurity hackathon, and a product build round. Only the strongest teams carry through all three stages.',
+    topics: ['Competitive coding', 'Cybersecurity / CTF', 'Product build'],
+    poster: trialathon,
+    registerUrl: 'https://face-triathlon.vercel.app/',
+  },
   {
     slug: 'ai-in-healthcare',
     title: 'Prospects of AI in Healthcare',
